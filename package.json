@@ -1,0 +1,35 @@
+{
+  "name": "fulcrum-token",
+  "version": "1.0.0",
+  "description": "Fulcrum ERC20 Token",
+  "main": " ",
+  "scripts": {
+    "test": "truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Acceptio/fulcrum-token.git"
+  },
+  "keywords": [
+    "ERC20",
+    "token",
+    "cryptocurrency",
+    "fulcrum",
+    "accept"
+  ],
+  "author": "Binod Nirvan",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Acceptio/fulcrum-token/issues"
+  },
+  "homepage": "https://github.com/Acceptio/fulcrum-token#readme",
+  "dependencies": {
+    "openzeppelin-solidity": "1.12.0"
+  },
+  "devDependencies": {
+    "bignumber.js": "^7.2.1",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "chai-bignumber": "^2.0.2"
+  }
+}

@@ -1,6 +1,9 @@
-﻿# Fulcrum Token Base Contract (FulcrumTokenBase.sol)
+# Fulcrum Token Base Contract (FulcrumTokenBase.sol)
 
-**contract FulcrumTokenBase is [StandardToken](StandardToken.md), [CustomPausable](CustomPausable.md), [BurnableToken](BurnableToken.md)**
+View Source: [contracts/FulcrumTokenBase.sol](../contracts/FulcrumTokenBase.sol)
+
+**↗ Extends: [StandardToken](StandardToken.md), [CustomPausable](CustomPausable.md), [BurnableToken](BurnableToken.md)**
+**↘ Derived Contracts: [FulcrumToken](FulcrumToken.md)**
 
 **FulcrumTokenBase**
 
@@ -24,14 +27,15 @@ uint256 public constant INITIAL_SUPPLY;
 
 //internal members
 uint256 internal constant MILLION;
+
 ```
 
 **Events**
 
 ```js
-event BulkTransferPerformed(address[] _destinations, uint256[] _amounts);
-event TokenReleased(bool _state);
-event Mint(address indexed to, uint256 amount);
+event BulkTransferPerformed(address[]  _destinations, uint256[]  _amounts);
+event TokenReleased(bool  _state);
+event Mint(address indexed to, uint256  amount);
 ```
 
 ## Modifiers
@@ -54,30 +58,17 @@ modifier canTransfer(address _from) internal
 
 ## Functions
 
-- [mintTokens](#minttokens)
-- [releaseTokenForTransfer](#releasetokenfortransfer)
-- [disableTokenTransfers](#disabletokentransfers)
-- [transfer](#transfer)
-- [transferFrom](#transferfrom)
-- [approve](#approve)
-- [increaseApproval](#increaseapproval)
-- [decreaseApproval](#decreaseapproval)
-- [sumOf](#sumof)
-- [bulkTransfer](#bulktransfer)
-- [burn](#burn)
-
-### mintTokens
-
-```js
-function mintTokens(address _to, uint256 _value) internal
-```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-| _to | address | The address which will receive the minted tokens. | 
-| _value | uint256 | The amount of tokens to mint. | 
+- [releaseTokenForTransfer()](#releasetokenfortransfer)
+- [disableTokenTransfers()](#disabletokentransfers)
+- [transfer(address _to, uint256 _value)](#transfer)
+- [transferFrom(address _from, address _to, uint256 _value)](#transferfrom)
+- [approve(address _spender, uint256 _value)](#approve)
+- [increaseApproval(address _spender, uint256 _addedValue)](#increaseapproval)
+- [decreaseApproval(address _spender, uint256 _subtractedValue)](#decreaseapproval)
+- [bulkTransfer(address[] _destinations, uint256[] _amounts)](#bulktransfer)
+- [burn(uint256 _value)](#burn)
+- [mintTokens(address _to, uint256 _value)](#minttokens)
+- [sumOf(uint256[] _values)](#sumof)
 
 ### releaseTokenForTransfer
 
@@ -85,25 +76,35 @@ This function enables token transfers for everyone.
 Can only be enabled after the end of the ICO.
 
 ```js
-function releaseTokenForTransfer() public onlyAdmin whenNotPaused
+function releaseTokenForTransfer() external nonpayable onlyAdmin whenNotPaused 
 returns(bool)
 ```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
 
 ### disableTokenTransfers
 
 This function disables token transfers for everyone.
 
 ```js
-function disableTokenTransfers() public onlyAdmin whenNotPaused
+function disableTokenTransfers() external nonpayable onlyAdmin whenNotPaused 
 returns(bool)
 ```
 
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
 ### transfer
 
-:small_red_triangle: overrides [BasicToken.transfer](BasicToken.md#transfer)
+⤾ overrides [BasicToken.transfer](BasicToken.md#transfer)
 
 ```js
-function transfer(address _to, uint256 _value) public canTransfer
+function transfer(address _to, uint256 _value) public nonpayable canTransfer 
 returns(bool)
 ```
 
@@ -116,12 +117,12 @@ returns(bool)
 
 ### transferFrom
 
-:small_red_triangle: overrides [StandardToken.transferFrom](StandardToken.md#transferfrom)
+⤾ overrides [StandardToken.transferFrom](StandardToken.md#transferfrom)
 
 Transfers tokens from a specified wallet address.
 
 ```js
-function transferFrom(address _from, address _to, uint256 _value) public canTransfer
+function transferFrom(address _from, address _to, uint256 _value) public nonpayable canTransfer 
 returns(bool)
 ```
 
@@ -135,12 +136,12 @@ returns(bool)
 
 ### approve
 
-:small_red_triangle: overrides [StandardToken.approve](StandardToken.md#approve)
+⤾ overrides [StandardToken.approve](StandardToken.md#approve)
 
 Approves a wallet address to spend on behalf of the sender.
 
 ```js
-function approve(address _spender, uint256 _value) public canTransfer
+function approve(address _spender, uint256 _value) public nonpayable canTransfer 
 returns(bool)
 ```
 
@@ -153,12 +154,12 @@ returns(bool)
 
 ### increaseApproval
 
-:small_red_triangle: overrides [StandardToken.increaseApproval](StandardToken.md#increaseapproval)
+⤾ overrides [StandardToken.increaseApproval](StandardToken.md#increaseapproval)
 
 Increases the approval of the spender.
 
 ```js
-function increaseApproval(address _spender, uint256 _addedValue) public canTransfer
+function increaseApproval(address _spender, uint256 _addedValue) public nonpayable canTransfer 
 returns(bool)
 ```
 
@@ -171,12 +172,12 @@ returns(bool)
 
 ### decreaseApproval
 
-:small_red_triangle: overrides [StandardToken.decreaseApproval](StandardToken.md#decreaseapproval)
+⤾ overrides [StandardToken.decreaseApproval](StandardToken.md#decreaseapproval)
 
 Decreases the approval of the spender.
 
 ```js
-function decreaseApproval(address _spender, uint256 _subtractedValue) public canTransfer
+function decreaseApproval(address _spender, uint256 _subtractedValue) public nonpayable canTransfer 
 returns(bool)
 ```
 
@@ -186,6 +187,51 @@ returns(bool)
 | ------------- |------------- | -----|
 | _spender | address | The address of the spender to decrease the allocation from. | 
 | _subtractedValue | uint256 | The amount of tokens to subtract from the approved allocation. | 
+
+### bulkTransfer
+
+Allows only the admins and/or whitelisted applications to perform bulk transfer operation.
+
+```js
+function bulkTransfer(address[] _destinations, uint256[] _amounts) public nonpayable onlyAdmin 
+returns(bool)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _destinations | address[] | The destination wallet addresses to send funds to. | 
+| _amounts | uint256[] | The respective amount of fund to send to the specified addresses. | 
+
+### burn
+
+⤾ overrides [BurnableToken.burn](BurnableToken.md#burn)
+
+Burns the coins held by the sender.
+
+```js
+function burn(uint256 _value) public nonpayable whenNotPaused 
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _value | uint256 | The amount of coins to burn. | 
+
+### mintTokens
+
+```js
+function mintTokens(address _to, uint256 _value) internal nonpayable
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _to | address | The address which will receive the minted tokens. | 
+| _value | uint256 | The amount of tokens to mint. | 
 
 ### sumOf
 
@@ -202,49 +248,17 @@ returns(uint256)
 | ------------- |------------- | -----|
 | _values | uint256[] | The collection of values to create the sum from. | 
 
-### bulkTransfer
-
-Allows only the admins and/or whitelisted applications to perform bulk transfer operation.
-
-```js
-function bulkTransfer(address[] _destinations, uint256[] _amounts) public onlyAdmin
-returns(bool)
-```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-| _destinations | address[] | The destination wallet addresses to send funds to. | 
-| _amounts | uint256[] | The respective amount of fund to send to the specified addresses. | 
-
-### burn
-
-:small_red_triangle: overrides [BurnableToken.burn](BurnableToken.md#burn)
-
-Burns the coins held by the sender.
-
-```js
-function burn(uint256 _value) public whenNotPaused
-```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-| _value | uint256 | The amount of coins to burn. | 
-
 ## Contracts
 
-- [ERC20Basic](ERC20Basic.md)
-- [SafeMath](SafeMath.md)
-- [FulcrumToken](FulcrumToken.md)
-- [FulcrumTokenBase](FulcrumTokenBase.md)
-- [BasicToken](BasicToken.md)
-- [StandardToken](StandardToken.md)
-- [CustomPausable](CustomPausable.md)
-- [BurnableToken](BurnableToken.md)
-- [CustomAdmin](CustomAdmin.md)
-- [Migrations](Migrations.md)
-- [Ownable](Ownable.md)
-- [ERC20](ERC20.md)
+* [BasicToken](BasicToken.md)
+* [BurnableToken](BurnableToken.md)
+* [CustomAdmin](CustomAdmin.md)
+* [CustomPausable](CustomPausable.md)
+* [ERC20](ERC20.md)
+* [ERC20Basic](ERC20Basic.md)
+* [FulcrumToken](FulcrumToken.md)
+* [FulcrumTokenBase](FulcrumTokenBase.md)
+* [Migrations](Migrations.md)
+* [Ownable](Ownable.md)
+* [SafeMath](SafeMath.md)
+* [StandardToken](StandardToken.md)

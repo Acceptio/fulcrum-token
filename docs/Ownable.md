@@ -1,4 +1,8 @@
-﻿# Ownable (Ownable.sol)
+# Ownable (Ownable.sol)
+
+View Source: [openzeppelin-solidity/contracts/ownership/Ownable.sol](../openzeppelin-solidity/contracts/ownership/Ownable.sol)
+
+**↘ Derived Contracts: [CustomAdmin](CustomAdmin.md)**
 
 **Ownable**
 
@@ -10,6 +14,7 @@ functions, this simplifies the implementation of "user permissions".
 
 ```js
 address public owner;
+
 ```
 
 **Events**
@@ -38,9 +43,9 @@ modifier onlyOwner() internal
 
 ## Functions
 
-- [renounceOwnership](#renounceownership)
-- [transferOwnership](#transferownership)
-- [_transferOwnership](#_transferownership)
+- [renounceOwnership()](#renounceownership)
+- [transferOwnership(address _newOwner)](#transferownership)
+- [_transferOwnership(address _newOwner)](#_transferownership)
 
 ### renounceOwnership
 
@@ -49,15 +54,20 @@ It will not be possible to call the functions with the `onlyOwner`
 modifier anymore.
 
 ```js
-function renounceOwnership() public onlyOwner
+function renounceOwnership() public nonpayable onlyOwner 
 ```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
 
 ### transferOwnership
 
 Allows the current owner to transfer control of the contract to a newOwner.
 
 ```js
-function transferOwnership(address _newOwner) public onlyOwner
+function transferOwnership(address _newOwner) public nonpayable onlyOwner 
 ```
 
 **Arguments**
@@ -71,7 +81,7 @@ function transferOwnership(address _newOwner) public onlyOwner
 Transfers control of the contract to a newOwner.
 
 ```js
-function _transferOwnership(address _newOwner) internal
+function _transferOwnership(address _newOwner) internal nonpayable
 ```
 
 **Arguments**
@@ -82,15 +92,15 @@ function _transferOwnership(address _newOwner) internal
 
 ## Contracts
 
-- [ERC20Basic](ERC20Basic.md)
-- [SafeMath](SafeMath.md)
-- [FulcrumToken](FulcrumToken.md)
-- [FulcrumTokenBase](FulcrumTokenBase.md)
-- [BasicToken](BasicToken.md)
-- [StandardToken](StandardToken.md)
-- [CustomPausable](CustomPausable.md)
-- [BurnableToken](BurnableToken.md)
-- [CustomAdmin](CustomAdmin.md)
-- [Migrations](Migrations.md)
-- [Ownable](Ownable.md)
-- [ERC20](ERC20.md)
+* [BasicToken](BasicToken.md)
+* [BurnableToken](BurnableToken.md)
+* [CustomAdmin](CustomAdmin.md)
+* [CustomPausable](CustomPausable.md)
+* [ERC20](ERC20.md)
+* [ERC20Basic](ERC20Basic.md)
+* [FulcrumToken](FulcrumToken.md)
+* [FulcrumTokenBase](FulcrumTokenBase.md)
+* [Migrations](Migrations.md)
+* [Ownable](Ownable.md)
+* [SafeMath](SafeMath.md)
+* [StandardToken](StandardToken.md)

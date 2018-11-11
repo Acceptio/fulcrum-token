@@ -1,6 +1,9 @@
-﻿# CustomAdmin.sol
+# This contract enables to create multiple contract administrators. (CustomAdmin.sol)
 
-**contract CustomAdmin is [Ownable](Ownable.md)**
+View Source: [contracts/CustomAdmin.sol](../contracts/CustomAdmin.sol)
+
+**↗ Extends: [Ownable](Ownable.md)**
+**↘ Derived Contracts: [CustomPausable](CustomPausable.md)**
 
 **CustomAdmin**
 
@@ -9,14 +12,14 @@
 
 ```js
 mapping(address => bool) public admins;
-uint256 public numberOfAdmins;
+
 ```
 
 **Events**
 
 ```js
-event AdminAdded(address indexed addr);
-event AdminRemoved(address indexed addr);
+event AdminAdded(address indexed _address);
+event AdminRemoved(address indexed _address);
 ```
 
 ## Modifiers
@@ -25,7 +28,7 @@ event AdminRemoved(address indexed addr);
 
 ### onlyAdmin
 
-Throws if called by any account that's not an administrator.
+Validates if the sender is actually an administrator.
 
 ```js
 modifier onlyAdmin() internal
@@ -38,48 +41,94 @@ modifier onlyAdmin() internal
 
 ## Functions
 
-- [addAdmin](#addadmin)
-- [removeAdmin](#removeadmin)
+- [addAdmin(address _address)](#addadmin)
+- [addManyAdmins(address[] _accounts)](#addmanyadmins)
+- [removeAdmin(address _address)](#removeadmin)
+- [removeManyAdmins(address[] _accounts)](#removemanyadmins)
+- [isAdmin(address _address)](#isadmin)
 
 ### addAdmin
 
-Add an address to the adminstrator list.
+Adds the specified address to the list of administrators.
 
 ```js
-function addAdmin(address addr) public onlyAdmin
+function addAdmin(address _address) external nonpayable onlyAdmin 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| addr | address | address | 
+| _address | address | The address to add to the administrator list. | 
+
+### addManyAdmins
+
+Adds multiple addresses to the administrator list.
+
+```js
+function addManyAdmins(address[] _accounts) external nonpayable onlyAdmin 
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _accounts | address[] | The wallet addresses to add to the administrator list. | 
 
 ### removeAdmin
 
-Remove an address from the administrator list.
+Removes the specified address from the list of administrators.
 
 ```js
-function removeAdmin(address addr) public onlyAdmin
+function removeAdmin(address _address) external nonpayable onlyAdmin 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| addr | address | address | 
+| _address | address | The address to remove from the administrator list. | 
+
+### removeManyAdmins
+
+Removes multiple addresses to the administrator list.
+
+```js
+function removeManyAdmins(address[] _accounts) external nonpayable onlyAdmin 
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _accounts | address[] | The wallet addresses to add to the administrator list. | 
+
+### isAdmin
+
+Checks if an address is an administrator.
+
+```js
+function isAdmin(address _address) public view
+returns(bool)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _address | address |  | 
 
 ## Contracts
 
-- [ERC20Basic](ERC20Basic.md)
-- [SafeMath](SafeMath.md)
-- [FulcrumToken](FulcrumToken.md)
-- [FulcrumTokenBase](FulcrumTokenBase.md)
-- [BasicToken](BasicToken.md)
-- [StandardToken](StandardToken.md)
-- [CustomPausable](CustomPausable.md)
-- [BurnableToken](BurnableToken.md)
-- [CustomAdmin](CustomAdmin.md)
-- [Migrations](Migrations.md)
-- [Ownable](Ownable.md)
-- [ERC20](ERC20.md)
+* [BasicToken](BasicToken.md)
+* [BurnableToken](BurnableToken.md)
+* [CustomAdmin](CustomAdmin.md)
+* [CustomPausable](CustomPausable.md)
+* [ERC20](ERC20.md)
+* [ERC20Basic](ERC20Basic.md)
+* [FulcrumToken](FulcrumToken.md)
+* [FulcrumTokenBase](FulcrumTokenBase.md)
+* [Migrations](Migrations.md)
+* [Ownable](Ownable.md)
+* [SafeMath](SafeMath.md)
+* [StandardToken](StandardToken.md)

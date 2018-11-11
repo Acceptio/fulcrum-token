@@ -1,6 +1,9 @@
-﻿# ERC20 interface (ERC20.sol)
+# ERC20 interface (ERC20.sol)
 
-**contract ERC20 is [ERC20Basic](ERC20Basic.md)**
+View Source: [openzeppelin-solidity/contracts/token/ERC20/ERC20.sol](../openzeppelin-solidity/contracts/token/ERC20/ERC20.sol)
+
+**↗ Extends: [ERC20Basic](ERC20Basic.md)**
+**↘ Derived Contracts: [StandardToken](StandardToken.md)**
 
 **ERC20**
 
@@ -9,16 +12,18 @@ see https://github.com/ethereum/EIPs/issues/20
 **Events**
 
 ```js
-event Approval(address indexed owner, address indexed spender, uint256 value);
+event Approval(address indexed owner, address indexed spender, uint256  value);
 ```
 
 ## Functions
 
-- [allowance](#allowance)
-- [transferFrom](#transferfrom)
-- [approve](#approve)
+- [allowance(address _owner, address _spender)](#allowance)
+- [transferFrom(address _from, address _to, uint256 _value)](#transferfrom)
+- [approve(address _spender, uint256 _value)](#approve)
 
 ### allowance
+
+⤿ Overridden Implementation(s): [StandardToken.allowance](StandardToken.md#allowance)
 
 ```js
 function allowance(address _owner, address _spender) public view
@@ -34,8 +39,10 @@ returns(uint256)
 
 ### transferFrom
 
+⤿ Overridden Implementation(s): [FulcrumTokenBase.transferFrom](FulcrumTokenBase.md#transferfrom),[StandardToken.transferFrom](StandardToken.md#transferfrom)
+
 ```js
-function transferFrom(address _from, address _to, uint256 _value) public
+function transferFrom(address _from, address _to, uint256 _value) public nonpayable
 returns(bool)
 ```
 
@@ -49,8 +56,10 @@ returns(bool)
 
 ### approve
 
+⤿ Overridden Implementation(s): [FulcrumTokenBase.approve](FulcrumTokenBase.md#approve),[StandardToken.approve](StandardToken.md#approve)
+
 ```js
-function approve(address _spender, uint256 _value) public
+function approve(address _spender, uint256 _value) public nonpayable
 returns(bool)
 ```
 
@@ -63,15 +72,15 @@ returns(bool)
 
 ## Contracts
 
-- [ERC20Basic](ERC20Basic.md)
-- [SafeMath](SafeMath.md)
-- [FulcrumToken](FulcrumToken.md)
-- [FulcrumTokenBase](FulcrumTokenBase.md)
-- [BasicToken](BasicToken.md)
-- [StandardToken](StandardToken.md)
-- [CustomPausable](CustomPausable.md)
-- [BurnableToken](BurnableToken.md)
-- [CustomAdmin](CustomAdmin.md)
-- [Migrations](Migrations.md)
-- [Ownable](Ownable.md)
-- [ERC20](ERC20.md)
+* [BasicToken](BasicToken.md)
+* [BurnableToken](BurnableToken.md)
+* [CustomAdmin](CustomAdmin.md)
+* [CustomPausable](CustomPausable.md)
+* [ERC20](ERC20.md)
+* [ERC20Basic](ERC20Basic.md)
+* [FulcrumToken](FulcrumToken.md)
+* [FulcrumTokenBase](FulcrumTokenBase.md)
+* [Migrations](Migrations.md)
+* [Ownable](Ownable.md)
+* [SafeMath](SafeMath.md)
+* [StandardToken](StandardToken.md)

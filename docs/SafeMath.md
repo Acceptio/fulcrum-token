@@ -1,13 +1,17 @@
-﻿# SafeMath.sol
+# SafeMath (SafeMath.sol)
+
+View Source: [openzeppelin-solidity/contracts/math/SafeMath.sol](../openzeppelin-solidity/contracts/math/SafeMath.sol)
 
 **SafeMath**
 
+Math operations with safety checks that throw on error
+
 ## Functions
 
-- [mul](#mul)
-- [div](#div)
-- [sub](#sub)
-- [add](#add)
+- [mul(uint256 _a, uint256 _b)](#mul)
+- [div(uint256 _a, uint256 _b)](#div)
+- [sub(uint256 _a, uint256 _b)](#sub)
+- [add(uint256 _a, uint256 _b)](#add)
 
 ### mul
 
@@ -75,15 +79,15 @@ returns(c uint256)
 
 ## Contracts
 
-- [ERC20Basic](ERC20Basic.md)
-- [SafeMath](SafeMath.md)
-- [FulcrumToken](FulcrumToken.md)
-- [FulcrumTokenBase](FulcrumTokenBase.md)
-- [BasicToken](BasicToken.md)
-- [StandardToken](StandardToken.md)
-- [CustomPausable](CustomPausable.md)
-- [BurnableToken](BurnableToken.md)
-- [CustomAdmin](CustomAdmin.md)
-- [Migrations](Migrations.md)
-- [Ownable](Ownable.md)
-- [ERC20](ERC20.md)
+* [BasicToken](BasicToken.md)
+* [BurnableToken](BurnableToken.md)
+* [CustomAdmin](CustomAdmin.md)
+* [CustomPausable](CustomPausable.md)
+* [ERC20](ERC20.md)
+* [ERC20Basic](ERC20Basic.md)
+* [FulcrumToken](FulcrumToken.md)
+* [FulcrumTokenBase](FulcrumTokenBase.md)
+* [Migrations](Migrations.md)
+* [Ownable](Ownable.md)
+* [SafeMath](SafeMath.md)
+* [StandardToken](StandardToken.md)

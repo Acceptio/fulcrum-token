@@ -1,6 +1,9 @@
-﻿# Burnable Token (BurnableToken.sol)
+# Burnable Token (BurnableToken.sol)
 
-**contract BurnableToken is [BasicToken](BasicToken.md)**
+View Source: [openzeppelin-solidity/contracts/token/ERC20/BurnableToken.sol](../openzeppelin-solidity/contracts/token/ERC20/BurnableToken.sol)
+
+**↗ Extends: [BasicToken](BasicToken.md)**
+**↘ Derived Contracts: [FulcrumTokenBase](FulcrumTokenBase.md)**
 
 **BurnableToken**
 
@@ -9,20 +12,22 @@ Token that can be irreversibly burned (destroyed).
 **Events**
 
 ```js
-event Burn(address indexed burner, uint256 value);
+event Burn(address indexed burner, uint256  value);
 ```
 
 ## Functions
 
-- [burn](#burn)
-- [_burn](#_burn)
+- [burn(uint256 _value)](#burn)
+- [_burn(address _who, uint256 _value)](#_burn)
 
 ### burn
+
+⤿ Overridden Implementation(s): [FulcrumTokenBase.burn](FulcrumTokenBase.md#burn)
 
 Burns a specific amount of tokens.
 
 ```js
-function burn(uint256 _value) public
+function burn(uint256 _value) public nonpayable
 ```
 
 **Arguments**
@@ -34,7 +39,7 @@ function burn(uint256 _value) public
 ### _burn
 
 ```js
-function _burn(address _who, uint256 _value) internal
+function _burn(address _who, uint256 _value) internal nonpayable
 ```
 
 **Arguments**
@@ -46,15 +51,15 @@ function _burn(address _who, uint256 _value) internal
 
 ## Contracts
 
-- [ERC20Basic](ERC20Basic.md)
-- [SafeMath](SafeMath.md)
-- [FulcrumToken](FulcrumToken.md)
-- [FulcrumTokenBase](FulcrumTokenBase.md)
-- [BasicToken](BasicToken.md)
-- [StandardToken](StandardToken.md)
-- [CustomPausable](CustomPausable.md)
-- [BurnableToken](BurnableToken.md)
-- [CustomAdmin](CustomAdmin.md)
-- [Migrations](Migrations.md)
-- [Ownable](Ownable.md)
-- [ERC20](ERC20.md)
+* [BasicToken](BasicToken.md)
+* [BurnableToken](BurnableToken.md)
+* [CustomAdmin](CustomAdmin.md)
+* [CustomPausable](CustomPausable.md)
+* [ERC20](ERC20.md)
+* [ERC20Basic](ERC20Basic.md)
+* [FulcrumToken](FulcrumToken.md)
+* [FulcrumTokenBase](FulcrumTokenBase.md)
+* [Migrations](Migrations.md)
+* [Ownable](Ownable.md)
+* [SafeMath](SafeMath.md)
+* [StandardToken](StandardToken.md)

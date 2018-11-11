@@ -11,7 +11,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-pragma solidity 0.4.24;
+pragma solidity ^0.4.24;
 
 /*
 Copyright 2018 Binod Nirvan @ Accept (http://accept.io)
@@ -340,8 +340,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
- 
- 
 
 
 
@@ -429,100 +427,122 @@ contract Ownable {
 }
 
 
+
+///@title This contract enables to create multiple contract administrators.
 contract CustomAdmin is Ownable {
+  ///@notice List of administrators.
   mapping(address => bool) public admins;
-  uint256 public numberOfAdmins;
 
-  event AdminAdded(address indexed addr);
-  event AdminRemoved(address indexed addr);
+  event AdminAdded(address indexed _address);
+  event AdminRemoved(address indexed _address);
 
-  /**
-   * @dev Throws if called by any account that's not an administrator.
-   */
+  ///@notice Validates if the sender is actually an administrator.
   modifier onlyAdmin() {
-    require(admins[msg.sender] || msg.sender == owner);
+    require(isAdmin(msg.sender), "Access is denied.");
     _;
   }
 
-  constructor() public {
-    admins[msg.sender] = true;
-    numberOfAdmins = 1;
-    
-    emit AdminAdded(msg.sender);
-  }
-  /**
-   * @dev Add an address to the adminstrator list.
-   * @param addr address
-   */
-  function addAdmin(address addr) onlyAdmin  public {
-    require(addr != address(0));
-    require(!admins[addr]);
+  ///@notice Adds the specified address to the list of administrators.
+  ///@param _address The address to add to the administrator list.
+  function addAdmin(address _address) external onlyAdmin {
+    require(_address != address(0), "Invalid address.");
+    require(!admins[_address], "This address is already an administrator.");
 
-    admins[addr] = true;
-    numberOfAdmins++;
+    require(_address != owner, "The owner cannot be added or removed to or from the administrator list.");
 
-    emit AdminAdded(addr);
+    admins[_address] = true;
+
+    emit AdminAdded(_address);
   }
 
-  /**
-   * @dev Remove an address from the administrator list.
-   * @param addr address
-   */
-  function removeAdmin(address addr) onlyAdmin  public {
-    require(addr != address(0));
-    require(admins[addr]);
-    //the owner can not be unadminsed
-    require(addr != owner);
+  ///@notice Adds multiple addresses to the administrator list.
+  ///@param _accounts The wallet addresses to add to the administrator list.
+  function addManyAdmins(address[] _accounts) external onlyAdmin {
+    for(uint8 i = 0; i < _accounts.length; i++) {
+      address account = _accounts[i];
 
-    admins[addr] = false;
-    numberOfAdmins--;
+      ///Zero address cannot be an admin.
+      ///The owner is already an admin and cannot be assigned.
+      ///The address cannot be an existing admin.
+      if(account != address(0) && !admins[account] && account != owner) {
+        admins[account] = true;
 
-    emit AdminRemoved(addr);
+        emit AdminAdded(_accounts[i]);
+      }
+    }
+  }
+
+  ///@notice Removes the specified address from the list of administrators.
+  ///@param _address The address to remove from the administrator list.
+  function removeAdmin(address _address) external onlyAdmin {
+    require(_address != address(0), "Invalid address.");
+    require(admins[_address], "This address isn't an administrator.");
+
+    //The owner cannot be removed as admin.
+    require(_address != owner, "The owner cannot be added or removed to or from the administrator list.");
+
+    admins[_address] = false;
+    emit AdminRemoved(_address);
+  }
+
+  ///@notice Removes multiple addresses to the administrator list.
+  ///@param _accounts The wallet addresses to add to the administrator list.
+  function removeManyAdmins(address[] _accounts) external onlyAdmin {
+    for(uint8 i = 0; i < _accounts.length; i++) {
+      address account = _accounts[i];
+
+      ///Zero address can neither be added or removed from this list.
+      ///The owner is the super admin and cannot be removed.
+      ///The address must be an existing admin in order for it to be removed.
+      if(account != address(0) && admins[account] && account != owner) {
+        admins[account] = false;
+
+        emit AdminRemoved(_accounts[i]);
+      }
+    }
+  }
+
+  ///@notice Checks if an address is an administrator.
+  function isAdmin(address _address) public view returns(bool) {
+    if(_address == owner) {
+      return true;
+    }
+
+    return admins[_address];
   }
 }
 
 
 
-/**
- * @title Pausable
- * @dev Base contract which allows children to implement an emergency stop mechanism.
- */
+///@title This contract enables you to create pausable mechanism to stop in case of emergency.
 contract CustomPausable is CustomAdmin {
-  event Pause();
-  event Unpause();
+  event Paused();
+  event Unpaused();
 
   bool public paused = false;
 
-  /**
-   * @dev Modifier to make a function callable only when the contract is not paused.
-   */
+  ///@notice Verifies whether the contract is not paused.
   modifier whenNotPaused() {
-    require(!paused);
+    require(!paused, "Sorry but the contract isn't paused.");
     _;
   }
 
-  /**
-   * @dev Modifier to make a function callable only when the contract is paused.
-   */
+  ///@notice Verifies whether the contract is paused.
   modifier whenPaused() {
-    require(paused);
+    require(paused, "Sorry but the contract is paused.");
     _;
   }
 
-  /**
-   * @dev called by the owner to pause, triggers stopped state
-   */
-  function pause() onlyAdmin whenNotPaused public {
+  ///@notice Pauses the contract.
+  function pause() external onlyAdmin whenNotPaused {
     paused = true;
-    emit Pause();
+    emit Paused();
   }
 
-  /**
-   * @dev called by the owner to unpause, returns to normal state
-   */
-  function unpause() onlyAdmin whenPaused public {
+  ///@notice Unpauses the contract and returns to normal state.
+  function unpause() external onlyAdmin whenPaused {
     paused = false;
-    emit Unpause();
+    emit Unpaused();
   }
 }
 
@@ -535,35 +555,21 @@ contract CustomPausable is CustomAdmin {
 ///for marketplace users to access premium features in the Accept.io DApp An incentive for users to help 
 ///improve the Accept Marketplace and contribute to the long-term development of Accept.io
 contract FulcrumTokenBase is StandardToken, CustomPausable, BurnableToken {
+  //solhint-disable
   uint8 public constant decimals = 18;
   string public constant name = "Fulcrum Token";
   string public constant symbol = "FULC";
+  //solhint-enable
 
   bool public released = false;
 
   uint256 internal constant MILLION = 1000000 * 1 ether; 
-  uint256 public constant MAX_SUPPLY = 400 * MILLION;
-  uint256 public constant INITIAL_SUPPLY = 150 * MILLION;
+  uint256 public constant MAX_SUPPLY = 200 * MILLION;
+  uint256 public constant INITIAL_SUPPLY = 100 * MILLION;
 
   event BulkTransferPerformed(address[] _destinations, uint256[] _amounts);
   event TokenReleased(bool _state);
   event Mint(address indexed to, uint256 amount);
-
-  ///@notice Mints the supplied value of the tokens to the destination address.
-  //Minting cannot be performed any further once the maximum supply is reached.
-  //This function cannot be used by anyone except for this contract.
-  ///@param _to The address which will receive the minted tokens.
-  ///@param _value The amount of tokens to mint.
-  function mintTokens(address _to, uint _value) internal {
-    require(_to != address(0));
-    require(totalSupply_.add(_value) <= MAX_SUPPLY);
-
-    balances[_to] = balances[_to].add(_value);
-    totalSupply_ = totalSupply_.add(_value);
-
-    emit Mint(_to, _value);
-    emit Transfer(address(0), _to, _value);
-  }
 
   constructor() public {
     mintTokens(msg.sender, INITIAL_SUPPLY);
@@ -573,8 +579,8 @@ contract FulcrumTokenBase is StandardToken, CustomPausable, BurnableToken {
   ///@param _from The address to check against if the transfer is allowed.
   modifier canTransfer(address _from) {
     if(paused || !released) {
-      if(!admins[_from]) {
-        revert();
+      if(!isAdmin(_from)) {
+        revert("Operation not allowed. The transfer state is restricted.");
       }
     }
 
@@ -583,8 +589,8 @@ contract FulcrumTokenBase is StandardToken, CustomPausable, BurnableToken {
 
   ///@notice This function enables token transfers for everyone.
   ///Can only be enabled after the end of the ICO.
-  function releaseTokenForTransfer() public onlyAdmin whenNotPaused returns(bool) {
-    require(!released);
+  function releaseTokenForTransfer() external onlyAdmin whenNotPaused returns(bool) {
+    require(!released, "Invalid operation. The transfer state is no more restricted.");
 
     released = true;
 
@@ -593,8 +599,8 @@ contract FulcrumTokenBase is StandardToken, CustomPausable, BurnableToken {
   }
 
   ///@notice This function disables token transfers for everyone.
-  function disableTokenTransfers() public onlyAdmin whenNotPaused returns(bool) {
-    require(released);
+  function disableTokenTransfers() external onlyAdmin whenNotPaused returns(bool) {
+    require(released, "Invalid operation. The transfer state is already restricted.");
 
     released = false;
 
@@ -608,7 +614,7 @@ contract FulcrumTokenBase is StandardToken, CustomPausable, BurnableToken {
   ///@param _to The destination wallet address to transfer funds to.
   ///@param _value The amount of tokens to send to the destination address.
   function transfer(address _to, uint256 _value) public canTransfer(msg.sender) returns(bool) {
-    require(_to != address(0));
+    require(_to != address(0), "Invalid address.");
     return super.transfer(_to, _value);
   }
 
@@ -617,8 +623,8 @@ contract FulcrumTokenBase is StandardToken, CustomPausable, BurnableToken {
   ///@param _from The address to transfer funds from.
   ///@param _to The address to transfer funds to.
   ///@param _value The amount of tokens to transfer.
-  function transferFrom(address _from, address _to, uint256 _value) canTransfer(_from) public returns(bool) {
-    require(_to != address(0));
+  function transferFrom(address _from, address _to, uint256 _value) public canTransfer(_from) returns(bool) {
+    require(_to != address(0), "Invalid address.");
     return super.transferFrom(_from, _to, _value);
   }
 
@@ -627,17 +633,16 @@ contract FulcrumTokenBase is StandardToken, CustomPausable, BurnableToken {
   ///@param _spender The address which is approved to spend on behalf of the sender.
   ///@param _value The amount of tokens approve to spend. 
   function approve(address _spender, uint256 _value) public canTransfer(msg.sender) returns(bool) {
-    require(_spender != address(0));
+    require(_spender != address(0), "Invalid address.");
     return super.approve(_spender, _value);
   }
-
 
   ///@notice Increases the approval of the spender.
   ///@dev This function is overridden to leverage transfer state feature.
   ///@param _spender The address which is approved to spend on behalf of the sender.
   ///@param _addedValue The added amount of tokens approved to spend.
   function increaseApproval(address _spender, uint256 _addedValue) public canTransfer(msg.sender) returns(bool) {
-    require(_spender != address(0));
+    require(_spender != address(0), "Invalid address.");
     return super.increaseApproval(_spender, _addedValue);
   }
 
@@ -646,35 +651,23 @@ contract FulcrumTokenBase is StandardToken, CustomPausable, BurnableToken {
   ///@param _spender The address of the spender to decrease the allocation from.
   ///@param _subtractedValue The amount of tokens to subtract from the approved allocation.
   function decreaseApproval(address _spender, uint256 _subtractedValue) public canTransfer(msg.sender) returns(bool) {
-    require(_spender != address(0));
+    require(_spender != address(0), "Invalid address.");
     return super.decreaseApproval(_spender, _subtractedValue);
-  }
-
-  ///@notice Returns the sum of supplied values.
-  ///@param _values The collection of values to create the sum from.  
-  function sumOf(uint256[] _values) private pure returns(uint256) {
-    uint256 total = 0;
-
-    for (uint256 i = 0; i < _values.length; i++) {
-      total = total.add(_values[i]);
-    }
-
-    return total;
   }
   
   ///@notice Allows only the admins and/or whitelisted applications to perform bulk transfer operation.
   ///@param _destinations The destination wallet addresses to send funds to.
   ///@param _amounts The respective amount of fund to send to the specified addresses. 
   function bulkTransfer(address[] _destinations, uint256[] _amounts) public onlyAdmin returns(bool) {
-    require(_destinations.length == _amounts.length);
+    require(_destinations.length == _amounts.length, "Invalid operation.");
 
     //Saving gas by determining if the sender has enough balance
     //to post this transaction.
     uint256 requiredBalance = sumOf(_amounts);
-    require(balances[msg.sender] >= requiredBalance);
+    require(balances[msg.sender] >= requiredBalance, "You don't have sufficient funds to transfer amount that large.");
     
     for (uint256 i = 0; i < _destinations.length; i++) {
-     transfer(_destinations[i], _amounts[i]);
+      transfer(_destinations[i], _amounts[i]);
     }
 
     emit BulkTransferPerformed(_destinations, _amounts);
@@ -687,7 +680,38 @@ contract FulcrumTokenBase is StandardToken, CustomPausable, BurnableToken {
   function burn(uint256 _value) public whenNotPaused {
     super.burn(_value);
   }
+
+  ///@notice Mints the supplied value of the tokens to the destination address.
+  //Minting cannot be performed any further once the maximum supply is reached.
+  //This function cannot be used by anyone except for this contract.
+  ///@param _to The address which will receive the minted tokens.
+  ///@param _value The amount of tokens to mint.
+  function mintTokens(address _to, uint _value) internal returns(bool) {
+    require(_to != address(0), "Invalid address.");
+    require(totalSupply_.add(_value) <= MAX_SUPPLY, "Sorry but the total supply can't exceed the maximum supply.");
+
+    balances[_to] = balances[_to].add(_value);
+    totalSupply_ = totalSupply_.add(_value);
+
+    emit Transfer(address(0), _to, _value);
+    emit Mint(_to, _value);
+
+    return true;
+  }
+  
+  ///@notice Returns the sum of supplied values.
+  ///@param _values The collection of values to create the sum from.  
+  function sumOf(uint256[] _values) private pure returns(uint256) {
+    uint256 total = 0;
+
+    for (uint256 i = 0; i < _values.length; i++) {
+      total = total.add(_values[i]);
+    }
+
+    return total;
+  }
 }
+
 
 ///@title Fulcrum Token
 ///@author Binod Nirvan
@@ -697,48 +721,117 @@ contract FulcrumTokenBase is StandardToken, CustomPausable, BurnableToken {
 ///for marketplace users to access premium features in the Accept.io DApp An incentive for users to help 
 ///improve the Accept Marketplace and contribute to the long-term development of Accept.io
 contract FulcrumToken is FulcrumTokenBase {
-  uint256 public ICOEndDate;
+  //solhint-disable not-rely-on-time
+  //solium-disable security/no-block-members
 
-  uint256 public constant ALLOCATION_FOR_TEAM = 50 * MILLION;
-  uint256 public constant ALLOCATION_FOR_INITIAL_STRATEGIC_PARTNERSHIPS = 20 * MILLION;
-  uint256 public constant ALLOCATION_FOR_STRATEGIC_PARTNERSHIPS = 20 * MILLION;
-  uint256 public constant ALLOCATION_FOR_RESERVE = 40 * MILLION;
-  uint256 public constant ALLOCATION_FOR_COMMUNITY_REWARDS = 30 * MILLION;
-  uint256 public constant ALLOCATION_FOR_USER_ADOPTION = 20 * MILLION;
-  uint256 public constant ALLOCATION_FOR_MARKETING = 20 * MILLION;
-  uint256 public constant ALLOCATION_FOR_ADVISORS = 50 * MILLION;
+  uint256 public icoEndDate;
+
+  uint256 public constant ALLOCATION_FOR_COMMUNITY_REWARDS = 15 * MILLION;
+  uint256 public constant ALLOCATION_FOR_RESERVE = 17 * MILLION;
+  uint256 public constant ALLOCATION_FOR_TEAM = 40 * MILLION;
+  uint256 public constant ALLOCATION_FOR_ADVISORS = 8 * MILLION;
+  uint256 public constant ALLOCATION_FOR_INITIAL_STRATEGIC_PARTNERSHIPS = 10 * MILLION;
+  uint256 public constant ALLOCATION_FOR_STRATEGIC_PARTNERSHIPS = 10 * MILLION;
+
+  bool public targetReached = false;
 
   mapping(bytes32 => bool) private mintingList;
 
   event ICOEndDateSet(uint256 _date);
-
-
-  ///@notice Computes keccak256 hash of the supplied value.
-  ///@param _key The string value to compute hash from.
-  function computeHash(string _key) private pure returns(bytes32){
-    return keccak256(abi.encodePacked(_key));
-  }
+  event TargetReached();
 
   ///@notice Checks if the minting for the supplied key was already performed.
   ///@param _key The key or category name of minting.
   modifier whenNotMinted(string _key) {
     if(mintingList[computeHash(_key)]) {
-      revert();
+      revert("Duplicate minting key supplied.");
     }
 
     _;
   }
 
-  ///@notice This function enables the whitelisted application (internal application) to set the ICO end date and can only be used once.
-  ///@param _date The date to set as the ICO end date.
-  function setICOEndDate(uint _date) public onlyAdmin returns(bool) {
-    require(ICOEndDate == 0);
-    require(_date > now);
+  ///@notice This function signifies that the minimum fundraising target was met.
+  ///Please note that this can only be called once.
+  function setSuccess() external onlyAdmin returns(bool) {
+    require(!targetReached, "Access is denied.");
+    targetReached = true;
 
-    ICOEndDate = _date;
+    emit TargetReached();
+  }
+
+  ///@notice This function enables the whitelisted application (internal application) to set the 
+  /// ICO end date and can only be used once.
+  ///@param _date The date to set as the ICO end date.
+  function setICOEndDate(uint _date) external onlyAdmin returns(bool) {
+    require(icoEndDate == 0, "The ICO end date was already set.");
+    require(_date > now, "The ICO end date must be in the future.");
+
+    icoEndDate = _date;
     
     emit ICOEndDateSet(_date);
     return true;
+  }
+
+  ///@notice Mints the below-mentioned amount of tokens allocated to rewarding the community.
+  //The tokens are available to the community rewards pool only if the fundraiser was successful.
+  function mintCommunityRewardTokens() external onlyAdmin returns(bool) {
+    require(targetReached, "Sorry, you can't mint at this time because the target hasn't been reached yet.");
+
+    return mintOnce("communityRewards", msg.sender, ALLOCATION_FOR_COMMUNITY_REWARDS);
+  }
+
+  ///@notice Mints the below-mentioned amount of tokens allocated to the operational reserves.
+  //The tokens are only available in the reserves after 18 months of the ICO end.
+  function mintReserveTokens() external onlyAdmin returns(bool) {
+    require(targetReached, "Sorry, you can't mint at this time because the target hasn't been reached yet.");
+    require(icoEndDate != 0, "You need to specify the ICO end date before minting the tokens.");
+    require(now > (icoEndDate + 548 days), "Access is denied, it's too early to mint the reserve tokens.");
+
+    return mintOnce("operationalReserve", msg.sender, ALLOCATION_FOR_RESERVE);
+  }
+
+  ///@notice Mints the below-mentioned amount of tokens allocated to the Accept.io founders.
+  //The tokens are only available to the founders after 2 year of the ICO end.
+  function mintTokensForTeam() external onlyAdmin returns(bool) {
+    require(targetReached, "Sorry, you can't mint at this time because the target hasn't been reached yet.");
+    require(icoEndDate != 0, "You need to specify the ICO end date before minting the tokens.");
+    require(now > (icoEndDate + 730 days), "Access is denied, it's too early to mint team tokens.");
+
+    return mintOnce("team", msg.sender, ALLOCATION_FOR_TEAM);
+  }
+
+  ///@notice Mints the below-mentioned amount of tokens allocated to the Accept.io advisors.
+  //The tokens are only available to the advisors after 1 year of the ICO end.
+  function mintTokensForAdvisors() external onlyAdmin returns(bool) {
+    require(targetReached, "Sorry, you can't mint at this time because the target hasn't been reached yet.");
+    require(icoEndDate != 0, "You need to specify the ICO end date before minting the tokens.");
+    require(now > (icoEndDate + 365 days), "Access is denied, it's too early to mint advisory tokens.");
+
+    return mintOnce("advisors", msg.sender, ALLOCATION_FOR_ADVISORS);
+  }
+
+  ///@notice Mints the below-mentioned amount of tokens allocated to the first Strategic Partnership category.
+  //The tokens are available to the first strategic partners only if the fundraiser was successful.
+  function mintTokensForInitialStrategicPartnerships() external onlyAdmin returns(bool) {
+    require(targetReached, "Sorry, you can't mint at this time because the target hasn't been reached yet.");
+
+    return mintOnce("initialStrategicPartners", msg.sender, ALLOCATION_FOR_INITIAL_STRATEGIC_PARTNERSHIPS);
+  }
+
+  ///@notice Mints the below-mentioned amount of tokens allocated to the second Strategic Partnership category.
+  //The tokens are only available to the second strategic partners after 730 days of the ICO end.
+  function mintTokensForStrategicPartnerships() external onlyAdmin returns(bool) {
+    require(targetReached, "Sorry, you can't mint at this time because the target hasn't been reached yet.");
+    require(icoEndDate != 0, "You need to specify the ICO end date before minting the tokens.");
+    require(now > (icoEndDate + 730 days), "Access is denied, it's too early to mint the partnership tokens.");
+
+    return mintOnce("strategicPartners", msg.sender, ALLOCATION_FOR_STRATEGIC_PARTNERSHIPS);
+  }
+
+  ///@notice Computes keccak256 hash of the supplied value.
+  ///@param _key The string value to compute hash from.
+  function computeHash(string _key) private pure returns(bytes32) {
+    return keccak256(abi.encodePacked(_key));
   }
 
   ///@notice Mints the tokens only once against the supplied key (category).
@@ -746,45 +839,7 @@ contract FulcrumToken is FulcrumTokenBase {
   ///@param _to The address receiving the minted tokens.
   ///@param _amount The amount of tokens to mint.
   function mintOnce(string _key, address _to, uint256 _amount) private whenNotPaused whenNotMinted(_key) returns(bool) {
-    mintTokens(_to, _amount);
     mintingList[computeHash(_key)] = true;
-    return true;
-  }
-
-  ///@notice Mints the below-mentioned amount of tokens allocated to the Accept.io founders.
-  //The tokens are only available to the founders after 2 year of the ICO end.
-  function mintTokensForTeam() public onlyAdmin returns(bool) {
-    require(ICOEndDate != 0);
-    require(now > (ICOEndDate + 730 days));
-
-    return mintOnce("founders", msg.sender, ALLOCATION_FOR_TEAM);
-  }
-
-  ///@notice Mints the below-mentioned amount of tokens allocated to the first Strategic Partnership category.
-  //The tokens are only available to the first strategic partners after 180 days of the ICO end.
-  function mintTokensForInitialStrategicPartnerships() public onlyAdmin returns(bool) {
-    require(ICOEndDate != 0);
-    require(now > (ICOEndDate + 180 days));
-
-    return mintOnce("initialStrategicPartners", msg.sender, ALLOCATION_FOR_INITIAL_STRATEGIC_PARTNERSHIPS);
-  }
-
-  ///@notice Mints the below-mentioned amount of tokens allocated to the second Strategic Partnership category.
-  //The tokens are only available to the second strategic partners after 365 days of the ICO end.
-  function mintTokensForStrategicPartnerships() public onlyAdmin returns(bool) {
-    require(ICOEndDate != 0);
-    require(now > (ICOEndDate + 365 days));
-
-    return mintOnce("strategicPartners", msg.sender, ALLOCATION_FOR_STRATEGIC_PARTNERSHIPS);
-  }
-
-
-  ///@notice Mints the below-mentioned amount of tokens allocated to the Accept.io advisors.
-  //The tokens are only available to the advisors after 1 year of the ICO end.
-  function mintTokensForAdvisors() public onlyAdmin returns(bool) {
-    require(ICOEndDate != 0);
-    require(now > (ICOEndDate + 365 days));
-
-    return mintOnce("strategicPartners", msg.sender, ALLOCATION_FOR_ADVISORS);
+    return mintTokens(_to, _amount);
   }
 }

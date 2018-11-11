@@ -1,23 +1,25 @@
-﻿# Pausable (CustomPausable.sol)
+# This contract enables you to create pausable mechanism to stop in case of emergency. (CustomPausable.sol)
 
-**contract CustomPausable is [CustomAdmin](CustomAdmin.md)**
+View Source: [contracts/CustomPausable.sol](../contracts/CustomPausable.sol)
+
+**↗ Extends: [CustomAdmin](CustomAdmin.md)**
+**↘ Derived Contracts: [FulcrumTokenBase](FulcrumTokenBase.md)**
 
 **CustomPausable**
-
-Base contract which allows children to implement an emergency stop mechanism.
 
 ## Contract Members
 **Constants & Variables**
 
 ```js
 bool public paused;
+
 ```
 
 **Events**
 
 ```js
-event Pause();
-event Unpause();
+event Paused();
+event Unpaused();
 ```
 
 ## Modifiers
@@ -27,7 +29,7 @@ event Unpause();
 
 ### whenNotPaused
 
-Modifier to make a function callable only when the contract is not paused.
+Verifies whether the contract is not paused.
 
 ```js
 modifier whenNotPaused() internal
@@ -40,7 +42,7 @@ modifier whenNotPaused() internal
 
 ### whenPaused
 
-Modifier to make a function callable only when the contract is paused.
+Verifies whether the contract is paused.
 
 ```js
 modifier whenPaused() internal
@@ -53,36 +55,46 @@ modifier whenPaused() internal
 
 ## Functions
 
-- [pause](#pause)
-- [unpause](#unpause)
+- [pause()](#pause)
+- [unpause()](#unpause)
 
 ### pause
 
-called by the owner to pause, triggers stopped state
+Pauses the contract.
 
 ```js
-function pause() public onlyAdmin whenNotPaused
+function pause() external nonpayable onlyAdmin whenNotPaused 
 ```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
 
 ### unpause
 
-called by the owner to unpause, returns to normal state
+Unpauses the contract and returns to normal state.
 
 ```js
-function unpause() public onlyAdmin whenPaused
+function unpause() external nonpayable onlyAdmin whenPaused 
 ```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
 
 ## Contracts
 
-- [ERC20Basic](ERC20Basic.md)
-- [SafeMath](SafeMath.md)
-- [FulcrumToken](FulcrumToken.md)
-- [FulcrumTokenBase](FulcrumTokenBase.md)
-- [BasicToken](BasicToken.md)
-- [StandardToken](StandardToken.md)
-- [CustomPausable](CustomPausable.md)
-- [BurnableToken](BurnableToken.md)
-- [CustomAdmin](CustomAdmin.md)
-- [Migrations](Migrations.md)
-- [Ownable](Ownable.md)
-- [ERC20](ERC20.md)
+* [BasicToken](BasicToken.md)
+* [BurnableToken](BurnableToken.md)
+* [CustomAdmin](CustomAdmin.md)
+* [CustomPausable](CustomPausable.md)
+* [ERC20](ERC20.md)
+* [ERC20Basic](ERC20Basic.md)
+* [FulcrumToken](FulcrumToken.md)
+* [FulcrumTokenBase](FulcrumTokenBase.md)
+* [Migrations](Migrations.md)
+* [Ownable](Ownable.md)
+* [SafeMath](SafeMath.md)
+* [StandardToken](StandardToken.md)

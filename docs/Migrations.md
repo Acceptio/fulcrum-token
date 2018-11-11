@@ -1,4 +1,6 @@
-﻿# Migrations.sol
+# Migrations.sol
+
+View Source: [contracts/Migrations.sol](../contracts/Migrations.sol)
 
 **Migrations**
 
@@ -8,6 +10,7 @@
 ```js
 address public owner;
 uint256 public last_completed_migration;
+
 ```
 
 ## Modifiers
@@ -27,13 +30,13 @@ modifier restricted() internal
 
 ## Functions
 
-- [setCompleted](#setcompleted)
-- [upgrade](#upgrade)
+- [setCompleted(uint256 completed)](#setcompleted)
+- [upgrade(address new_address)](#upgrade)
 
 ### setCompleted
 
 ```js
-function setCompleted(uint256 completed) public restricted
+function setCompleted(uint256 completed) public nonpayable restricted 
 ```
 
 **Arguments**
@@ -45,7 +48,7 @@ function setCompleted(uint256 completed) public restricted
 ### upgrade
 
 ```js
-function upgrade(address new_address) public restricted
+function upgrade(address new_address) public nonpayable restricted 
 ```
 
 **Arguments**
@@ -56,15 +59,15 @@ function upgrade(address new_address) public restricted
 
 ## Contracts
 
-- [ERC20Basic](ERC20Basic.md)
-- [SafeMath](SafeMath.md)
-- [FulcrumToken](FulcrumToken.md)
-- [FulcrumTokenBase](FulcrumTokenBase.md)
-- [BasicToken](BasicToken.md)
-- [StandardToken](StandardToken.md)
-- [CustomPausable](CustomPausable.md)
-- [BurnableToken](BurnableToken.md)
-- [CustomAdmin](CustomAdmin.md)
-- [Migrations](Migrations.md)
-- [Ownable](Ownable.md)
-- [ERC20](ERC20.md)
+* [BasicToken](BasicToken.md)
+* [BurnableToken](BurnableToken.md)
+* [CustomAdmin](CustomAdmin.md)
+* [CustomPausable](CustomPausable.md)
+* [ERC20](ERC20.md)
+* [ERC20Basic](ERC20Basic.md)
+* [FulcrumToken](FulcrumToken.md)
+* [FulcrumTokenBase](FulcrumTokenBase.md)
+* [Migrations](Migrations.md)
+* [Ownable](Ownable.md)
+* [SafeMath](SafeMath.md)
+* [StandardToken](StandardToken.md)

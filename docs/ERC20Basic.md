@@ -1,4 +1,8 @@
-﻿# ERC20Basic (ERC20Basic.sol)
+# ERC20Basic (ERC20Basic.sol)
+
+View Source: [openzeppelin-solidity/contracts/token/ERC20/ERC20Basic.sol](../openzeppelin-solidity/contracts/token/ERC20/ERC20Basic.sol)
+
+**↘ Derived Contracts: [BasicToken](BasicToken.md), [ERC20](ERC20.md)**
 
 **ERC20Basic**
 
@@ -8,23 +12,32 @@ See https://github.com/ethereum/EIPs/issues/179
 **Events**
 
 ```js
-event Transfer(address indexed from, address indexed to, uint256 value);
+event Transfer(address indexed from, address indexed to, uint256  value);
 ```
 
 ## Functions
 
-- [totalSupply](#totalsupply)
-- [balanceOf](#balanceof)
-- [transfer](#transfer)
+- [totalSupply()](#totalsupply)
+- [balanceOf(address _who)](#balanceof)
+- [transfer(address _to, uint256 _value)](#transfer)
 
 ### totalSupply
+
+⤿ Overridden Implementation(s): [BasicToken.totalSupply](BasicToken.md#totalsupply)
 
 ```js
 function totalSupply() public view
 returns(uint256)
 ```
 
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
 ### balanceOf
+
+⤿ Overridden Implementation(s): [BasicToken.balanceOf](BasicToken.md#balanceof)
 
 ```js
 function balanceOf(address _who) public view
@@ -39,8 +52,10 @@ returns(uint256)
 
 ### transfer
 
+⤿ Overridden Implementation(s): [BasicToken.transfer](BasicToken.md#transfer),[FulcrumTokenBase.transfer](FulcrumTokenBase.md#transfer)
+
 ```js
-function transfer(address _to, uint256 _value) public
+function transfer(address _to, uint256 _value) public nonpayable
 returns(bool)
 ```
 
@@ -53,15 +68,15 @@ returns(bool)
 
 ## Contracts
 
-- [ERC20Basic](ERC20Basic.md)
-- [SafeMath](SafeMath.md)
-- [FulcrumToken](FulcrumToken.md)
-- [FulcrumTokenBase](FulcrumTokenBase.md)
-- [BasicToken](BasicToken.md)
-- [StandardToken](StandardToken.md)
-- [CustomPausable](CustomPausable.md)
-- [BurnableToken](BurnableToken.md)
-- [CustomAdmin](CustomAdmin.md)
-- [Migrations](Migrations.md)
-- [Ownable](Ownable.md)
-- [ERC20](ERC20.md)
+* [BasicToken](BasicToken.md)
+* [BurnableToken](BurnableToken.md)
+* [CustomAdmin](CustomAdmin.md)
+* [CustomPausable](CustomPausable.md)
+* [ERC20](ERC20.md)
+* [ERC20Basic](ERC20Basic.md)
+* [FulcrumToken](FulcrumToken.md)
+* [FulcrumTokenBase](FulcrumTokenBase.md)
+* [Migrations](Migrations.md)
+* [Ownable](Ownable.md)
+* [SafeMath](SafeMath.md)
+* [StandardToken](StandardToken.md)

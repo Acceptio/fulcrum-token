@@ -1,6 +1,9 @@
-﻿# Basic token (BasicToken.sol)
+# Basic token (BasicToken.sol)
 
-**contract BasicToken is [ERC20Basic](ERC20Basic.md)**
+View Source: [openzeppelin-solidity/contracts/token/ERC20/BasicToken.sol](../openzeppelin-solidity/contracts/token/ERC20/BasicToken.sol)
+
+**↗ Extends: [ERC20Basic](ERC20Basic.md)**
+**↘ Derived Contracts: [BurnableToken](BurnableToken.md), [StandardToken](StandardToken.md)**
 
 **BasicToken**
 
@@ -12,17 +15,18 @@ Basic version of StandardToken, with no allowances.
 ```js
 mapping(address => uint256) internal balances;
 uint256 internal totalSupply_;
+
 ```
 
 ## Functions
 
-- [totalSupply](#totalsupply)
-- [transfer](#transfer)
-- [balanceOf](#balanceof)
+- [totalSupply()](#totalsupply)
+- [transfer(address _to, uint256 _value)](#transfer)
+- [balanceOf(address _owner)](#balanceof)
 
 ### totalSupply
 
-:small_red_triangle: overrides [ERC20Basic.totalSupply](ERC20Basic.md#totalsupply)
+⤾ overrides [ERC20Basic.totalSupply](ERC20Basic.md#totalsupply)
 
 Total number of tokens in existence
 
@@ -31,14 +35,21 @@ function totalSupply() public view
 returns(uint256)
 ```
 
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
 ### transfer
 
-:small_red_triangle: overrides [ERC20Basic.transfer](ERC20Basic.md#transfer)
+⤾ overrides [ERC20Basic.transfer](ERC20Basic.md#transfer)
+
+⤿ Overridden Implementation(s): [FulcrumTokenBase.transfer](FulcrumTokenBase.md#transfer)
 
 Transfer token for a specified address
 
 ```js
-function transfer(address _to, uint256 _value) public
+function transfer(address _to, uint256 _value) public nonpayable
 returns(bool)
 ```
 
@@ -51,7 +62,7 @@ returns(bool)
 
 ### balanceOf
 
-:small_red_triangle: overrides [ERC20Basic.balanceOf](ERC20Basic.md#balanceof)
+⤾ overrides [ERC20Basic.balanceOf](ERC20Basic.md#balanceof)
 
 Gets the balance of the specified address.
 
@@ -72,15 +83,15 @@ An uint256 representing the amount owned by the passed address.
 
 ## Contracts
 
-- [ERC20Basic](ERC20Basic.md)
-- [SafeMath](SafeMath.md)
-- [FulcrumToken](FulcrumToken.md)
-- [FulcrumTokenBase](FulcrumTokenBase.md)
-- [BasicToken](BasicToken.md)
-- [StandardToken](StandardToken.md)
-- [CustomPausable](CustomPausable.md)
-- [BurnableToken](BurnableToken.md)
-- [CustomAdmin](CustomAdmin.md)
-- [Migrations](Migrations.md)
-- [Ownable](Ownable.md)
-- [ERC20](ERC20.md)
+* [BasicToken](BasicToken.md)
+* [BurnableToken](BurnableToken.md)
+* [CustomAdmin](CustomAdmin.md)
+* [CustomPausable](CustomPausable.md)
+* [ERC20](ERC20.md)
+* [ERC20Basic](ERC20Basic.md)
+* [FulcrumToken](FulcrumToken.md)
+* [FulcrumTokenBase](FulcrumTokenBase.md)
+* [Migrations](Migrations.md)
+* [Ownable](Ownable.md)
+* [SafeMath](SafeMath.md)
+* [StandardToken](StandardToken.md)

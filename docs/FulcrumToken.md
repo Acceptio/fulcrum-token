@@ -1,6 +1,8 @@
-﻿# Fulcrum Token (FulcrumToken.sol)
+# Fulcrum Token (FulcrumToken.sol)
 
-**contract FulcrumToken is [FulcrumTokenBase](FulcrumTokenBase.md)**
+View Source: [contracts/FulcrumToken.sol](../contracts/FulcrumToken.sol)
+
+**↗ Extends: [FulcrumTokenBase](FulcrumTokenBase.md)**
 
 **FulcrumToken**
 
@@ -15,24 +17,25 @@ improve the Accept Marketplace and contribute to the long-term development of Ac
 
 ```js
 //public members
-uint256 public ICOEndDate;
+uint256 public icoEndDate;
+uint256 public constant ALLOCATION_FOR_COMMUNITY_REWARDS;
+uint256 public constant ALLOCATION_FOR_RESERVE;
 uint256 public constant ALLOCATION_FOR_TEAM;
+uint256 public constant ALLOCATION_FOR_ADVISORS;
 uint256 public constant ALLOCATION_FOR_INITIAL_STRATEGIC_PARTNERSHIPS;
 uint256 public constant ALLOCATION_FOR_STRATEGIC_PARTNERSHIPS;
-uint256 public constant ALLOCATION_FOR_RESERVE;
-uint256 public constant ALLOCATION_FOR_COMMUNITY_REWARDS;
-uint256 public constant ALLOCATION_FOR_USER_ADOPTION;
-uint256 public constant ALLOCATION_FOR_MARKETING;
-uint256 public constant ALLOCATION_FOR_ADVISORS;
+bool public targetReached;
 
 //private members
 mapping(bytes32 => bool) private mintingList;
+
 ```
 
 **Events**
 
 ```js
-event ICOEndDateSet(uint256 _date);
+event ICOEndDateSet(uint256  _date);
+event TargetReached();
 ```
 
 ## Modifiers
@@ -55,13 +58,131 @@ modifier whenNotMinted(string _key) internal
 
 ## Functions
 
-- [computeHash](#computehash)
-- [setICOEndDate](#seticoenddate)
-- [mintOnce](#mintonce)
-- [mintTokensForTeam](#minttokensforteam)
-- [mintTokensForInitialStrategicPartnerships](#minttokensforinitialstrategicpartnerships)
-- [mintTokensForStrategicPartnerships](#minttokensforstrategicpartnerships)
-- [mintTokensForAdvisors](#minttokensforadvisors)
+- [setSuccess()](#setsuccess)
+- [setICOEndDate(uint256 _date)](#seticoenddate)
+- [mintCommunityRewardTokens()](#mintcommunityrewardtokens)
+- [mintReserveTokens()](#mintreservetokens)
+- [mintTokensForTeam()](#minttokensforteam)
+- [mintTokensForAdvisors()](#minttokensforadvisors)
+- [mintTokensForInitialStrategicPartnerships()](#minttokensforinitialstrategicpartnerships)
+- [mintTokensForStrategicPartnerships()](#minttokensforstrategicpartnerships)
+- [computeHash(string _key)](#computehash)
+- [mintOnce(string _key, address _to, uint256 _amount)](#mintonce)
+
+### setSuccess
+
+This function signifies that the minimum fundraising target was met.
+Please note that this can only be called once.
+
+```js
+function setSuccess() external nonpayable onlyAdmin 
+returns(bool)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
+### setICOEndDate
+
+This function enables the whitelisted application (internal application) to set the 
+ ICO end date and can only be used once.
+
+```js
+function setICOEndDate(uint256 _date) external nonpayable onlyAdmin 
+returns(bool)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+| _date | uint256 | The date to set as the ICO end date. | 
+
+### mintCommunityRewardTokens
+
+Mints the below-mentioned amount of tokens allocated to rewarding the community.
+
+```js
+function mintCommunityRewardTokens() external nonpayable onlyAdmin 
+returns(bool)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
+### mintReserveTokens
+
+Mints the below-mentioned amount of tokens allocated to the operational reserves.
+
+```js
+function mintReserveTokens() external nonpayable onlyAdmin 
+returns(bool)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
+### mintTokensForTeam
+
+Mints the below-mentioned amount of tokens allocated to the Accept.io founders.
+
+```js
+function mintTokensForTeam() external nonpayable onlyAdmin 
+returns(bool)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
+### mintTokensForAdvisors
+
+Mints the below-mentioned amount of tokens allocated to the Accept.io advisors.
+
+```js
+function mintTokensForAdvisors() external nonpayable onlyAdmin 
+returns(bool)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
+### mintTokensForInitialStrategicPartnerships
+
+Mints the below-mentioned amount of tokens allocated to the first Strategic Partnership category.
+
+```js
+function mintTokensForInitialStrategicPartnerships() external nonpayable onlyAdmin 
+returns(bool)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
+
+### mintTokensForStrategicPartnerships
+
+Mints the below-mentioned amount of tokens allocated to the second Strategic Partnership category.
+
+```js
+function mintTokensForStrategicPartnerships() external nonpayable onlyAdmin 
+returns(bool)
+```
+
+**Arguments**
+
+| Name        | Type           | Description  |
+| ------------- |------------- | -----|
 
 ### computeHash
 
@@ -78,27 +199,12 @@ returns(bytes32)
 | ------------- |------------- | -----|
 | _key | string | The string value to compute hash from. | 
 
-### setICOEndDate
-
-This function enables the whitelisted application (internal application) to set the ICO end date and can only be used once.
-
-```js
-function setICOEndDate(uint256 _date) public onlyAdmin
-returns(bool)
-```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
-| _date | uint256 | The date to set as the ICO end date. | 
-
 ### mintOnce
 
 Mints the tokens only once against the supplied key (category).
 
 ```js
-function mintOnce(string _key, address _to, uint256 _amount) private whenNotPaused whenNotMinted
+function mintOnce(string _key, address _to, uint256 _amount) private nonpayable whenNotPaused whenNotMinted 
 returns(bool)
 ```
 
@@ -110,53 +216,17 @@ returns(bool)
 | _to | address | The address receiving the minted tokens. | 
 | _amount | uint256 | The amount of tokens to mint. | 
 
-### mintTokensForTeam
-
-Mints the below-mentioned amount of tokens allocated to the Accept.io founders.
-
-```js
-function mintTokensForTeam() public onlyAdmin
-returns(bool)
-```
-
-### mintTokensForInitialStrategicPartnerships
-
-Mints the below-mentioned amount of tokens allocated to the first Strategic Partnership category.
-
-```js
-function mintTokensForInitialStrategicPartnerships() public onlyAdmin
-returns(bool)
-```
-
-### mintTokensForStrategicPartnerships
-
-Mints the below-mentioned amount of tokens allocated to the second Strategic Partnership category.
-
-```js
-function mintTokensForStrategicPartnerships() public onlyAdmin
-returns(bool)
-```
-
-### mintTokensForAdvisors
-
-Mints the below-mentioned amount of tokens allocated to the Accept.io advisors.
-
-```js
-function mintTokensForAdvisors() public onlyAdmin
-returns(bool)
-```
-
 ## Contracts
 
-- [ERC20Basic](ERC20Basic.md)
-- [SafeMath](SafeMath.md)
-- [FulcrumToken](FulcrumToken.md)
-- [FulcrumTokenBase](FulcrumTokenBase.md)
-- [BasicToken](BasicToken.md)
-- [StandardToken](StandardToken.md)
-- [CustomPausable](CustomPausable.md)
-- [BurnableToken](BurnableToken.md)
-- [CustomAdmin](CustomAdmin.md)
-- [Migrations](Migrations.md)
-- [Ownable](Ownable.md)
-- [ERC20](ERC20.md)
+* [BasicToken](BasicToken.md)
+* [BurnableToken](BurnableToken.md)
+* [CustomAdmin](CustomAdmin.md)
+* [CustomPausable](CustomPausable.md)
+* [ERC20](ERC20.md)
+* [ERC20Basic](ERC20Basic.md)
+* [FulcrumToken](FulcrumToken.md)
+* [FulcrumTokenBase](FulcrumTokenBase.md)
+* [Migrations](Migrations.md)
+* [Ownable](Ownable.md)
+* [SafeMath](SafeMath.md)
+* [StandardToken](StandardToken.md)

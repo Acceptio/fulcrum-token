@@ -91,6 +91,10 @@ contract("FulcrumTokenBase", function(accounts) {
     beforeEach(async() => {
       token = await Token.new();
       await token.addAdmin(accounts[1]);
+
+      await token.releaseTokenForTransfer();
+      await token.disableTokenTransfers();
+
       assert.equal(await token.isAdmin(accounts[0]), true);
       assert.equal(await token.isAdmin(accounts[1]), true);
     });

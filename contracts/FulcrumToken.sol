@@ -67,7 +67,6 @@ contract FulcrumToken is FulcrumTokenBase {
   ///@param _date The date to set as the ICO end date.
   function setICOEndDate(uint _date) external onlyAdmin returns(bool) {
     require(icoEndDate == 0, "The ICO end date was already set.");
-    require(_date > now, "The ICO end date must be in the future.");
 
     icoEndDate = _date;
     

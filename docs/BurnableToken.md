@@ -57,6 +57,8 @@ function _burn(address _who, uint256 _value) internal nonpayable
 * [CustomPausable](CustomPausable.md)
 * [ERC20](ERC20.md)
 * [ERC20Basic](ERC20Basic.md)
+* [ERC20Mock](ERC20Mock.md)
+* [ForceEther](ForceEther.md)
 * [FulcrumToken](FulcrumToken.md)
 * [FulcrumTokenBase](FulcrumTokenBase.md)
 * [Migrations](Migrations.md)

@@ -2,7 +2,7 @@ const Token = artifacts.require('./FulcrumToken.sol');
 const BigNumber = require('bignumber.js');
 const EVMRevert = require('./helpers/EVMRevert').EVMRevert;
 const ether = require('./helpers/ether').ether;
-const latestTime  = require('./helpers/latestTime').latestTime;
+const latestTime = require('./helpers/latestTime').latestTime;
 const increaseTime = require('./helpers/increaseTime');
 const increaseTimeTo = increaseTime.increaseTimeTo;
 const duration = increaseTime.duration;
@@ -14,7 +14,7 @@ require('chai')
   .use(require('chai-bignumber')(BigNumber))
   .should();
 
-contract('FulcrumToken', function(accounts) {
+contract('FulcrumToken', function (accounts) {
   describe('Token Creation Ruleset', () => {
     it('must correctly deploy with correct parameters and state variables.', async () => {
       let token = await Token.new();
@@ -55,7 +55,9 @@ contract('FulcrumToken', function(accounts) {
       let currentTime = await latestTime();
       const icoEndDate = currentTime + duration.weeks(1);
 
-      await token.setICOEndDate(icoEndDate, { from: accounts[1] }).should.be.rejectedWith(EVMRevert);
+      await token.setICOEndDate(icoEndDate, {
+        from: accounts[1]
+      }).should.be.rejectedWith(EVMRevert);
     });
 
     it('must not allow ICO end date to be set more than once.', async () => {
@@ -83,13 +85,19 @@ contract('FulcrumToken', function(accounts) {
       -------------------------------------------------------------*/
       await token.addAdmin(accounts[1]);
 
-      await token.mintCommunityRewardTokens({ from : accounts[1] }).should.be.rejectedWith(EVMRevert);
+      await token.mintCommunityRewardTokens({
+        from: accounts[1]
+      }).should.be.rejectedWith(EVMRevert);
 
       /*-------------------------------------------------------------
        SHOULD ALLOW MINTING ONLY WHEN THE ICO STATE IS SET AS SUCCESSFUL
       -------------------------------------------------------------*/
-      await token.setSuccess({from: accounts[1]});
-      await token.mintCommunityRewardTokens({ from : accounts[1] });
+      await token.setSuccess({
+        from: accounts[1]
+      });
+      await token.mintCommunityRewardTokens({
+        from: accounts[1]
+      });
 
       const balance = await token.balanceOf(accounts[1]);
       balance.should.be.bignumber.equal(communityRewardsTokenCount);
@@ -101,7 +109,9 @@ contract('FulcrumToken', function(accounts) {
       -------------------------------------------------------------*/
 
       //additional minting attempts of community reward tokens should be declined.
-      await token.mintCommunityRewardTokens({ from : accounts[1] }).should.be.rejectedWith(EVMRevert);
+      await token.mintCommunityRewardTokens({
+        from: accounts[1]
+      }).should.be.rejectedWith(EVMRevert);
     });
 
     it('must correctly mint initial strategic partnership tokens only once and only if the ICO is successful.', async () => {
@@ -113,13 +123,19 @@ contract('FulcrumToken', function(accounts) {
       -------------------------------------------------------------*/
       await token.addAdmin(accounts[1]);
 
-      await token.mintTokensForInitialStrategicPartnerships({ from : accounts[1] }).should.be.rejectedWith(EVMRevert);
+      await token.mintTokensForInitialStrategicPartnerships({
+        from: accounts[1]
+      }).should.be.rejectedWith(EVMRevert);
 
       /*-------------------------------------------------------------
        SHOULD ALLOW MINTING ONLY WHEN THE ICO STATE IS SET AS SUCCESSFUL
       -------------------------------------------------------------*/
-      await token.setSuccess({from: accounts[1]});
-      await token.mintTokensForInitialStrategicPartnerships({ from : accounts[1] });
+      await token.setSuccess({
+        from: accounts[1]
+      });
+      await token.mintTokensForInitialStrategicPartnerships({
+        from: accounts[1]
+      });
 
       const balance = await token.balanceOf(accounts[1]);
       balance.should.be.bignumber.equal(initialStrategicPartnershipTokenCount);
@@ -131,7 +147,9 @@ contract('FulcrumToken', function(accounts) {
       -------------------------------------------------------------*/
 
       //additional minting attempts of community reward tokens should be declined.
-      await token.mintTokensForInitialStrategicPartnerships({ from : accounts[1] }).should.be.rejectedWith(EVMRevert);
+      await token.mintTokensForInitialStrategicPartnerships({
+        from: accounts[1]
+      }).should.be.rejectedWith(EVMRevert);
     });
   });
 
@@ -146,7 +164,9 @@ contract('FulcrumToken', function(accounts) {
       await token.addAdmin(accounts[1]);
       await token.setSuccess();
 
-      await token.mintTokensForAdvisors({ from : accounts[1] }).should.be.rejectedWith(EVMRevert);
+      await token.mintTokensForAdvisors({
+        from: accounts[1]
+      }).should.be.rejectedWith(EVMRevert);
     });
 
     it('must allow minting of advisory tokens only once after 18 months from the ICO end date.', async () => {
@@ -156,7 +176,7 @@ contract('FulcrumToken', function(accounts) {
       const advisoryTokenCount = ether(8 * million);
 
       await token.addAdmin(accounts[1]);
-      
+
       await token.setICOEndDate(icoEndsOn);
       await token.setSuccess();
 
@@ -170,7 +190,9 @@ contract('FulcrumToken', function(accounts) {
        ADVISORY TOKEN MINTING
       -------------------------------------------------------------*/
 
-      await token.mintTokensForAdvisors({ from : accounts[1] });
+      await token.mintTokensForAdvisors({
+        from: accounts[1]
+      });
 
       balance = await token.balanceOf(accounts[1]);
       balance.should.be.bignumber.equal(advisoryTokenCount);
@@ -188,7 +210,9 @@ contract('FulcrumToken', function(accounts) {
       await token.addAdmin(accounts[1]);
       await token.setSuccess();
 
-      await token.mintReserveTokens({ from : accounts[1] }).should.be.rejectedWith(EVMRevert);
+      await token.mintReserveTokens({
+        from: accounts[1]
+      }).should.be.rejectedWith(EVMRevert);
     });
 
     it('must allow minting of reserve tokens only once after 18 months from the ICO end date.', async () => {
@@ -198,7 +222,7 @@ contract('FulcrumToken', function(accounts) {
       const reserveTokenCount = ether(17 * million);
 
       await token.addAdmin(accounts[1]);
-      
+
       await token.setICOEndDate(icoEndsOn);
       await token.setSuccess();
 
@@ -212,7 +236,9 @@ contract('FulcrumToken', function(accounts) {
        RESERVE TOKEN MINTING
       -------------------------------------------------------------*/
 
-      await token.mintReserveTokens({ from : accounts[1] });
+      await token.mintReserveTokens({
+        from: accounts[1]
+      });
 
       balance = await token.balanceOf(accounts[1]);
       balance.should.be.bignumber.equal(reserveTokenCount);
@@ -230,7 +256,9 @@ contract('FulcrumToken', function(accounts) {
       await token.addAdmin(accounts[1]);
       await token.setSuccess();
 
-      await token.mintTokensForTeam({ from : accounts[1] }).should.be.rejectedWith(EVMRevert);
+      await token.mintTokensForTeam({
+        from: accounts[1]
+      }).should.be.rejectedWith(EVMRevert);
     });
 
     it('must allow minting of team tokens only once after 2 years from the ICO end date.', async () => {
@@ -239,7 +267,7 @@ contract('FulcrumToken', function(accounts) {
 
       const teamTokenCount = ether(40 * million);
 
-      await token.addAdmin(accounts[1]);      
+      await token.addAdmin(accounts[1]);
       await token.setICOEndDate(icoEndsOn);
       await token.setSuccess();
 
@@ -252,7 +280,9 @@ contract('FulcrumToken', function(accounts) {
        TEAM TOKEN MINTING
       -------------------------------------------------------------*/
 
-      await token.mintTokensForTeam({ from : accounts[1] });
+      await token.mintTokensForTeam({
+        from: accounts[1]
+      });
 
       balance = await token.balanceOf(accounts[1]);
       balance.should.be.bignumber.equal(teamTokenCount);
@@ -270,7 +300,9 @@ contract('FulcrumToken', function(accounts) {
       await token.addAdmin(accounts[1]);
       await token.setSuccess();
 
-      await token.mintTokensForStrategicPartnerships({ from : accounts[1] }).should.be.rejectedWith(EVMRevert);
+      await token.mintTokensForStrategicPartnerships({
+        from: accounts[1]
+      }).should.be.rejectedWith(EVMRevert);
     });
 
     it('must allow minting of strategic partnership tokens only once after 2 years from the ICO end date.', async () => {
@@ -292,7 +324,9 @@ contract('FulcrumToken', function(accounts) {
        STRATEGIC PARTNERSHIP TOKEN MINTING
       -------------------------------------------------------------*/
 
-      await token.mintTokensForStrategicPartnerships({ from : accounts[1] });
+      await token.mintTokensForStrategicPartnerships({
+        from: accounts[1]
+      });
 
       balance = await token.balanceOf(accounts[1]);
       balance.should.be.bignumber.equal(strategicPartnershipTokenCount);
@@ -316,11 +350,21 @@ contract('FulcrumToken', function(accounts) {
       // const endDate = (await token.icoEndDate()).toNumber();
       // await increaseTimeTo(endDate + duration.days(365) + duration.seconds(2));
 
-      await token.mintCommunityRewardTokens({ from : accounts[0] });
-      await token.mintReserveTokens({ from : accounts[0] });
-      await token.mintTokensForTeam({ from : accounts[0] });
-      await token.mintTokensForAdvisors({ from : accounts[0] });
-      await token.mintTokensForInitialStrategicPartnerships({ from : accounts[0] });
+      await token.mintCommunityRewardTokens({
+        from: accounts[0]
+      });
+      await token.mintReserveTokens({
+        from: accounts[0]
+      });
+      await token.mintTokensForTeam({
+        from: accounts[0]
+      });
+      await token.mintTokensForAdvisors({
+        from: accounts[0]
+      });
+      await token.mintTokensForInitialStrategicPartnerships({
+        from: accounts[0]
+      });
 
       let totalSupply = await token.totalSupply();
       totalSupply.should.not.be.bignumber.equal(MAX_SUPPLY);
@@ -331,7 +375,9 @@ contract('FulcrumToken', function(accounts) {
        STRATEGIC PARTNERSHIP TOKEN MINTING ISN'T MINTED YET
       -------------------------------------------------------------*/
 
-      await token.mintTokensForStrategicPartnerships({ from : accounts[0] });
+      await token.mintTokensForStrategicPartnerships({
+        from: accounts[0]
+      });
 
       totalSupply = await token.totalSupply();
       totalSupply.should.be.bignumber.equal(MAX_SUPPLY);

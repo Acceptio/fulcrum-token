@@ -53,6 +53,7 @@ Adds the specified address to the list of administrators.
 
 ```js
 function addAdmin(address _address) external nonpayable onlyAdmin 
+returns(bool)
 ```
 
 **Arguments**
@@ -67,6 +68,7 @@ Adds multiple addresses to the administrator list.
 
 ```js
 function addManyAdmins(address[] _accounts) external nonpayable onlyAdmin 
+returns(bool)
 ```
 
 **Arguments**
@@ -81,6 +83,7 @@ Removes the specified address from the list of administrators.
 
 ```js
 function removeAdmin(address _address) external nonpayable onlyAdmin 
+returns(bool)
 ```
 
 **Arguments**
@@ -95,6 +98,7 @@ Removes multiple addresses to the administrator list.
 
 ```js
 function removeManyAdmins(address[] _accounts) external nonpayable onlyAdmin 
+returns(bool)
 ```
 
 **Arguments**
@@ -126,6 +130,8 @@ returns(bool)
 * [CustomPausable](CustomPausable.md)
 * [ERC20](ERC20.md)
 * [ERC20Basic](ERC20Basic.md)
+* [ERC20Mock](ERC20Mock.md)
+* [ForceEther](ForceEther.md)
 * [FulcrumToken](FulcrumToken.md)
 * [FulcrumTokenBase](FulcrumTokenBase.md)
 * [Migrations](Migrations.md)

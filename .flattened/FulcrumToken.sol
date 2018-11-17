@@ -444,7 +444,7 @@ contract CustomAdmin is Ownable {
 
   ///@notice Adds the specified address to the list of administrators.
   ///@param _address The address to add to the administrator list.
-  function addAdmin(address _address) external onlyAdmin {
+  function addAdmin(address _address) external onlyAdmin returns(bool) {
     require(_address != address(0), "Invalid address.");
     require(!admins[_address], "This address is already an administrator.");
 
@@ -453,11 +453,12 @@ contract CustomAdmin is Ownable {
     admins[_address] = true;
 
     emit AdminAdded(_address);
+    return true;
   }
 
   ///@notice Adds multiple addresses to the administrator list.
   ///@param _accounts The wallet addresses to add to the administrator list.
-  function addManyAdmins(address[] _accounts) external onlyAdmin {
+  function addManyAdmins(address[] _accounts) external onlyAdmin returns(bool) {
     for(uint8 i = 0; i < _accounts.length; i++) {
       address account = _accounts[i];
 
@@ -470,11 +471,13 @@ contract CustomAdmin is Ownable {
         emit AdminAdded(_accounts[i]);
       }
     }
+
+    return true;
   }
 
   ///@notice Removes the specified address from the list of administrators.
   ///@param _address The address to remove from the administrator list.
-  function removeAdmin(address _address) external onlyAdmin {
+  function removeAdmin(address _address) external onlyAdmin returns(bool) {
     require(_address != address(0), "Invalid address.");
     require(admins[_address], "This address isn't an administrator.");
 
@@ -483,11 +486,12 @@ contract CustomAdmin is Ownable {
 
     admins[_address] = false;
     emit AdminRemoved(_address);
+    return true;
   }
 
   ///@notice Removes multiple addresses to the administrator list.
   ///@param _accounts The wallet addresses to add to the administrator list.
-  function removeManyAdmins(address[] _accounts) external onlyAdmin {
+  function removeManyAdmins(address[] _accounts) external onlyAdmin returns(bool) {
     for(uint8 i = 0; i < _accounts.length; i++) {
       address account = _accounts[i];
 
@@ -500,6 +504,8 @@ contract CustomAdmin is Ownable {
         emit AdminRemoved(_accounts[i]);
       }
     }
+
+    return true;
   }
 
   ///@notice Checks if an address is an administrator.
@@ -585,6 +591,19 @@ contract FulcrumTokenBase is StandardToken, CustomPausable, BurnableToken {
     }
 
     _;
+  }
+
+  ///@notice Transfers all Ether held by the contract to the owner.
+  function reclaimEther() external onlyAdmin {
+    msg.sender.transfer(address(this).balance);
+  }
+
+  ///@notice Transfers all ERC20 tokens held by the contract to the owner.
+  ///@param _token The amount of token to reclaim.
+  function reclaimToken(address _token) external onlyAdmin {
+    ERC20 erc20 = ERC20(_token);
+    uint256 balance = erc20.balanceOf(this);
+    require(erc20.transfer(msg.sender, balance));
   }
 
   ///@notice This function enables token transfers for everyone.
@@ -764,7 +783,6 @@ contract FulcrumToken is FulcrumTokenBase {
   ///@param _date The date to set as the ICO end date.
   function setICOEndDate(uint _date) external onlyAdmin returns(bool) {
     require(icoEndDate == 0, "The ICO end date was already set.");
-    require(_date > now, "The ICO end date must be in the future.");
 
     icoEndDate = _date;
     

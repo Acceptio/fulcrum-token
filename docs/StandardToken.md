@@ -4,7 +4,7 @@
 View Source: [openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol](../openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol)
 
 **↗ Extends: [ERC20](ERC20.md), [BasicToken](BasicToken.md)**
-**↘ Derived Contracts: [FulcrumTokenBase](FulcrumTokenBase.md)**
+**↘ Derived Contracts: [ERC20Mock](ERC20Mock.md), [FulcrumTokenBase](FulcrumTokenBase.md)**
 
 **StandardToken**
 
@@ -147,6 +147,8 @@ returns(bool)
 * [CustomPausable](CustomPausable.md)
 * [ERC20](ERC20.md)
 * [ERC20Basic](ERC20Basic.md)
+* [ERC20Mock](ERC20Mock.md)
+* [ForceEther](ForceEther.md)
 * [FulcrumToken](FulcrumToken.md)
 * [FulcrumTokenBase](FulcrumTokenBase.md)
 * [Migrations](Migrations.md)

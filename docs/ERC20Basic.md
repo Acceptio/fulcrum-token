@@ -52,7 +52,7 @@ returns(uint256)
 
 ### transfer
 
-⤿ Overridden Implementation(s): [BasicToken.transfer](BasicToken.md#transfer),[FulcrumTokenBase.transfer](FulcrumTokenBase.md#transfer)
+⤿ Overridden Implementation(s): [BasicToken.transfer](BasicToken.md#transfer),[TokenBase.transfer](TokenBase.md#transfer)
 
 ```js
 function transfer(address _to, uint256 _value) public nonpayable
@@ -69,6 +69,7 @@ returns(bool)
 ## Contracts
 
 * [BasicToken](BasicToken.md)
+* [BulkTransfer](BulkTransfer.md)
 * [BurnableToken](BurnableToken.md)
 * [CustomAdmin](CustomAdmin.md)
 * [CustomPausable](CustomPausable.md)
@@ -77,8 +78,11 @@ returns(bool)
 * [ERC20Mock](ERC20Mock.md)
 * [ForceEther](ForceEther.md)
 * [FulcrumToken](FulcrumToken.md)
-* [FulcrumTokenBase](FulcrumTokenBase.md)
 * [Migrations](Migrations.md)
 * [Ownable](Ownable.md)
+* [Reclaimable](Reclaimable.md)
+* [SafeERC20](SafeERC20.md)
 * [SafeMath](SafeMath.md)
 * [StandardToken](StandardToken.md)
+* [TokenBase](TokenBase.md)
+* [TransferState](TransferState.md)

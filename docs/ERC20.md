@@ -39,7 +39,7 @@ returns(uint256)
 
 ### transferFrom
 
-⤿ Overridden Implementation(s): [FulcrumTokenBase.transferFrom](FulcrumTokenBase.md#transferfrom),[StandardToken.transferFrom](StandardToken.md#transferfrom)
+⤿ Overridden Implementation(s): [StandardToken.transferFrom](StandardToken.md#transferfrom),[TokenBase.transferFrom](TokenBase.md#transferfrom)
 
 ```js
 function transferFrom(address _from, address _to, uint256 _value) public nonpayable
@@ -56,7 +56,7 @@ returns(bool)
 
 ### approve
 
-⤿ Overridden Implementation(s): [FulcrumTokenBase.approve](FulcrumTokenBase.md#approve),[StandardToken.approve](StandardToken.md#approve)
+⤿ Overridden Implementation(s): [StandardToken.approve](StandardToken.md#approve),[TokenBase.approve](TokenBase.md#approve)
 
 ```js
 function approve(address _spender, uint256 _value) public nonpayable
@@ -73,6 +73,7 @@ returns(bool)
 ## Contracts
 
 * [BasicToken](BasicToken.md)
+* [BulkTransfer](BulkTransfer.md)
 * [BurnableToken](BurnableToken.md)
 * [CustomAdmin](CustomAdmin.md)
 * [CustomPausable](CustomPausable.md)
@@ -81,8 +82,11 @@ returns(bool)
 * [ERC20Mock](ERC20Mock.md)
 * [ForceEther](ForceEther.md)
 * [FulcrumToken](FulcrumToken.md)
-* [FulcrumTokenBase](FulcrumTokenBase.md)
 * [Migrations](Migrations.md)
 * [Ownable](Ownable.md)
+* [Reclaimable](Reclaimable.md)
+* [SafeERC20](SafeERC20.md)
 * [SafeMath](SafeMath.md)
 * [StandardToken](StandardToken.md)
+* [TokenBase](TokenBase.md)
+* [TransferState](TransferState.md)

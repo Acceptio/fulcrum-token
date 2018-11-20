@@ -2,7 +2,7 @@
 
 View Source: [contracts/FulcrumToken.sol](../contracts/FulcrumToken.sol)
 
-**↗ Extends: [FulcrumTokenBase](FulcrumTokenBase.md)**
+**↗ Extends: [TokenBase](TokenBase.md)**
 
 **FulcrumToken**
 
@@ -219,6 +219,7 @@ returns(bool)
 ## Contracts
 
 * [BasicToken](BasicToken.md)
+* [BulkTransfer](BulkTransfer.md)
 * [BurnableToken](BurnableToken.md)
 * [CustomAdmin](CustomAdmin.md)
 * [CustomPausable](CustomPausable.md)
@@ -227,8 +228,11 @@ returns(bool)
 * [ERC20Mock](ERC20Mock.md)
 * [ForceEther](ForceEther.md)
 * [FulcrumToken](FulcrumToken.md)
-* [FulcrumTokenBase](FulcrumTokenBase.md)
 * [Migrations](Migrations.md)
 * [Ownable](Ownable.md)
+* [Reclaimable](Reclaimable.md)
+* [SafeERC20](SafeERC20.md)
 * [SafeMath](SafeMath.md)
 * [StandardToken](StandardToken.md)
+* [TokenBase](TokenBase.md)
+* [TransferState](TransferState.md)

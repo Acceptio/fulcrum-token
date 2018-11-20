@@ -3,7 +3,7 @@
 View Source: [contracts/CustomPausable.sol](../contracts/CustomPausable.sol)
 
 **↗ Extends: [CustomAdmin](CustomAdmin.md)**
-**↘ Derived Contracts: [FulcrumTokenBase](FulcrumTokenBase.md)**
+**↘ Derived Contracts: [TransferState](TransferState.md)**
 
 **CustomPausable**
 
@@ -87,6 +87,7 @@ function unpause() external nonpayable onlyAdmin whenPaused
 ## Contracts
 
 * [BasicToken](BasicToken.md)
+* [BulkTransfer](BulkTransfer.md)
 * [BurnableToken](BurnableToken.md)
 * [CustomAdmin](CustomAdmin.md)
 * [CustomPausable](CustomPausable.md)
@@ -95,8 +96,11 @@ function unpause() external nonpayable onlyAdmin whenPaused
 * [ERC20Mock](ERC20Mock.md)
 * [ForceEther](ForceEther.md)
 * [FulcrumToken](FulcrumToken.md)
-* [FulcrumTokenBase](FulcrumTokenBase.md)
 * [Migrations](Migrations.md)
 * [Ownable](Ownable.md)
+* [Reclaimable](Reclaimable.md)
+* [SafeERC20](SafeERC20.md)
 * [SafeMath](SafeMath.md)
 * [StandardToken](StandardToken.md)
+* [TokenBase](TokenBase.md)
+* [TransferState](TransferState.md)

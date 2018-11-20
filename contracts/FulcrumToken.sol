@@ -13,7 +13,7 @@ limitations under the License.
 
 pragma solidity ^0.4.24;
 
-import "./FulcrumTokenBase.sol";
+import "./TokenBase.sol";
 
 
 ///@title Fulcrum Token
@@ -23,7 +23,7 @@ import "./FulcrumTokenBase.sol";
 ///A medium of exchange (settlements) for Accept.io buyers and sellers A consumptive use (utility) token 
 ///for marketplace users to access premium features in the Accept.io DApp An incentive for users to help 
 ///improve the Accept Marketplace and contribute to the long-term development of Accept.io
-contract FulcrumToken is FulcrumTokenBase {
+contract FulcrumToken is TokenBase {
   //solhint-disable not-rely-on-time
   //solium-disable security/no-block-members
 

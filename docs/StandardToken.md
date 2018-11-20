@@ -4,7 +4,7 @@
 View Source: [openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol](../openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol)
 
 **↗ Extends: [ERC20](ERC20.md), [BasicToken](BasicToken.md)**
-**↘ Derived Contracts: [ERC20Mock](ERC20Mock.md), [FulcrumTokenBase](FulcrumTokenBase.md)**
+**↘ Derived Contracts: [BulkTransfer](BulkTransfer.md), [ERC20Mock](ERC20Mock.md), [TokenBase](TokenBase.md)**
 
 **StandardToken**
 
@@ -32,7 +32,7 @@ mapping(address => mapping(address => uint256)) internal allowed;
 
 ⤾ overrides [ERC20.transferFrom](ERC20.md#transferfrom)
 
-⤿ Overridden Implementation(s): [FulcrumTokenBase.transferFrom](FulcrumTokenBase.md#transferfrom)
+⤿ Overridden Implementation(s): [TokenBase.transferFrom](TokenBase.md#transferfrom)
 
 Transfer tokens from one address to another
 
@@ -53,7 +53,7 @@ returns(bool)
 
 ⤾ overrides [ERC20.approve](ERC20.md#approve)
 
-⤿ Overridden Implementation(s): [FulcrumTokenBase.approve](FulcrumTokenBase.md#approve)
+⤿ Overridden Implementation(s): [TokenBase.approve](TokenBase.md#approve)
 
 Approve the passed address to spend the specified amount of tokens on behalf of msg.sender.
 Beware that changing an allowance with this method brings the risk that someone may use both the old
@@ -97,7 +97,7 @@ A uint256 specifying the amount of tokens still available for the spender.
 
 ### increaseApproval
 
-⤿ Overridden Implementation(s): [FulcrumTokenBase.increaseApproval](FulcrumTokenBase.md#increaseapproval)
+⤿ Overridden Implementation(s): [TokenBase.increaseApproval](TokenBase.md#increaseapproval)
 
 Increase the amount of tokens that an owner allowed to a spender.
 approve should be called when allowed[_spender] == 0. To increment
@@ -119,7 +119,7 @@ returns(bool)
 
 ### decreaseApproval
 
-⤿ Overridden Implementation(s): [FulcrumTokenBase.decreaseApproval](FulcrumTokenBase.md#decreaseapproval)
+⤿ Overridden Implementation(s): [TokenBase.decreaseApproval](TokenBase.md#decreaseapproval)
 
 Decrease the amount of tokens that an owner allowed to a spender.
 approve should be called when allowed[_spender] == 0. To decrement
@@ -142,6 +142,7 @@ returns(bool)
 ## Contracts
 
 * [BasicToken](BasicToken.md)
+* [BulkTransfer](BulkTransfer.md)
 * [BurnableToken](BurnableToken.md)
 * [CustomAdmin](CustomAdmin.md)
 * [CustomPausable](CustomPausable.md)
@@ -150,8 +151,11 @@ returns(bool)
 * [ERC20Mock](ERC20Mock.md)
 * [ForceEther](ForceEther.md)
 * [FulcrumToken](FulcrumToken.md)
-* [FulcrumTokenBase](FulcrumTokenBase.md)
 * [Migrations](Migrations.md)
 * [Ownable](Ownable.md)
+* [Reclaimable](Reclaimable.md)
+* [SafeERC20](SafeERC20.md)
 * [SafeMath](SafeMath.md)
 * [StandardToken](StandardToken.md)
+* [TokenBase](TokenBase.md)
+* [TransferState](TransferState.md)

@@ -3,7 +3,7 @@
 View Source: [openzeppelin-solidity/contracts/token/ERC20/BurnableToken.sol](../openzeppelin-solidity/contracts/token/ERC20/BurnableToken.sol)
 
 **↗ Extends: [BasicToken](BasicToken.md)**
-**↘ Derived Contracts: [FulcrumTokenBase](FulcrumTokenBase.md)**
+**↘ Derived Contracts: [TokenBase](TokenBase.md)**
 
 **BurnableToken**
 
@@ -22,7 +22,7 @@ event Burn(address indexed burner, uint256  value);
 
 ### burn
 
-⤿ Overridden Implementation(s): [FulcrumTokenBase.burn](FulcrumTokenBase.md#burn)
+⤿ Overridden Implementation(s): [TokenBase.burn](TokenBase.md#burn)
 
 Burns a specific amount of tokens.
 
@@ -52,6 +52,7 @@ function _burn(address _who, uint256 _value) internal nonpayable
 ## Contracts
 
 * [BasicToken](BasicToken.md)
+* [BulkTransfer](BulkTransfer.md)
 * [BurnableToken](BurnableToken.md)
 * [CustomAdmin](CustomAdmin.md)
 * [CustomPausable](CustomPausable.md)
@@ -60,8 +61,11 @@ function _burn(address _who, uint256 _value) internal nonpayable
 * [ERC20Mock](ERC20Mock.md)
 * [ForceEther](ForceEther.md)
 * [FulcrumToken](FulcrumToken.md)
-* [FulcrumTokenBase](FulcrumTokenBase.md)
 * [Migrations](Migrations.md)
 * [Ownable](Ownable.md)
+* [Reclaimable](Reclaimable.md)
+* [SafeERC20](SafeERC20.md)
 * [SafeMath](SafeMath.md)
 * [StandardToken](StandardToken.md)
+* [TokenBase](TokenBase.md)
+* [TransferState](TransferState.md)

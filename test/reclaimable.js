@@ -1,4 +1,4 @@
-const Token = artifacts.require("./FulcrumTokenBase.sol");
+const Token = artifacts.require("./TokenBase.sol");
 const ForceEther = artifacts.require('./ForceEther.sol');
 const ERC20 = artifacts.require('./ERC20Mock.sol');
 const BigNumber = require("bignumber.js");

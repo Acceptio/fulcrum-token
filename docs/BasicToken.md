@@ -44,7 +44,7 @@ returns(uint256)
 
 ⤾ overrides [ERC20Basic.transfer](ERC20Basic.md#transfer)
 
-⤿ Overridden Implementation(s): [FulcrumTokenBase.transfer](FulcrumTokenBase.md#transfer)
+⤿ Overridden Implementation(s): [TokenBase.transfer](TokenBase.md#transfer)
 
 Transfer token for a specified address
 
@@ -84,6 +84,7 @@ An uint256 representing the amount owned by the passed address.
 ## Contracts
 
 * [BasicToken](BasicToken.md)
+* [BulkTransfer](BulkTransfer.md)
 * [BurnableToken](BurnableToken.md)
 * [CustomAdmin](CustomAdmin.md)
 * [CustomPausable](CustomPausable.md)
@@ -92,8 +93,11 @@ An uint256 representing the amount owned by the passed address.
 * [ERC20Mock](ERC20Mock.md)
 * [ForceEther](ForceEther.md)
 * [FulcrumToken](FulcrumToken.md)
-* [FulcrumTokenBase](FulcrumTokenBase.md)
 * [Migrations](Migrations.md)
 * [Ownable](Ownable.md)
+* [Reclaimable](Reclaimable.md)
+* [SafeERC20](SafeERC20.md)
 * [SafeMath](SafeMath.md)
 * [StandardToken](StandardToken.md)
+* [TokenBase](TokenBase.md)
+* [TransferState](TransferState.md)

@@ -1,61 +1,47 @@
-# Migrations.sol
+# Reclaimable Contract (Reclaimable.sol)
 
-View Source: [contracts/Migrations.sol](../contracts/Migrations.sol)
+View Source: [contracts/Reclaimable.sol](../contracts/Reclaimable.sol)
 
-**Migrations**
+**↗ Extends: [CustomAdmin](CustomAdmin.md)**
+**↘ Derived Contracts: [TokenBase](TokenBase.md)**
 
-## Contract Members
-**Constants & Variables**
+**Reclaimable**
 
-```js
-address public owner;
-uint256 public last_completed_migration;
-
-```
-
-## Modifiers
-
-- [restricted](#restricted)
-
-### restricted
-
-```js
-modifier restricted() internal
-```
-
-**Arguments**
-
-| Name        | Type           | Description  |
-| ------------- |------------- | -----|
+Reclaimable contract enables the administrators 
+to reclaim accidentally sent Ethers and ERC20 token(s)
+to this contract.
 
 ## Functions
 
-- [setCompleted(uint256 completed)](#setcompleted)
-- [upgrade(address new_address)](#upgrade)
+- [reclaimEther()](#reclaimether)
+- [reclaimToken(address _token)](#reclaimtoken)
 
-### setCompleted
+### reclaimEther
+
+Transfers all Ether held by the contract to the owner.
 
 ```js
-function setCompleted(uint256 completed) public nonpayable restricted 
+function reclaimEther() external nonpayable onlyAdmin 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| completed | uint256 |  | 
 
-### upgrade
+### reclaimToken
+
+Transfers all ERC20 tokens held by the contract to the owner.
 
 ```js
-function upgrade(address new_address) public nonpayable restricted 
+function reclaimToken(address _token) external nonpayable onlyAdmin 
 ```
 
 **Arguments**
 
 | Name        | Type           | Description  |
 | ------------- |------------- | -----|
-| new_address | address |  | 
+| _token | address | The amount of token to reclaim. | 
 
 ## Contracts
 
